@@ -1,78 +1,148 @@
 /* General page styles */
 body {
     font-family: 'Inter', 'Roboto', sans-serif;
-    background-color: #f4f6f8;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
 }
 
 /* Title at top */
 h1 {
     text-align: center;
     margin: 2rem 0;
-    font-size: 2.2rem;
-    color: #333;
+    font-size: 2.8rem;
+    color: #ecf0f1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
 }
 
 /* Main container for the cards */
 .home-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 2rem;
-    max-width: 1000px;
-    margin: 0 auto 3rem auto;
-    padding: 0 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto 4rem auto;
+    height: 700px;
+    border: 6px solid #1a252f;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #34495e, #2c3e50);
+    padding: 2.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 /* Individual cards */
 .home-card {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 2rem 1rem;
+    background: linear-gradient(145deg, #ecf0f1, #bdc3c7);
+    border-radius: 20px;
+    padding: 2.5rem 1.5rem;
     text-align: center;
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.home-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
+}
+
+.home-card:hover::before {
+    left: 100%;
 }
 
 /* Hover effect for cards */
 .home-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.12);
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.35);
+    border-color: #95a5a6;
+    background: linear-gradient(145deg, #ffffff, #d5dbdb);
 }
 
 /* Course container (below the Courses card) */
 #course-container {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
 }
 
 /* Individual course boxes */
 #course-container > div {
-    background-color: #e0f7fa;
-    color: #00796b;
-    padding: 1rem;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    color: #ecf0f1;
+    padding: 1.5rem 1rem;
+    border-radius: 15px;
     text-align: center;
-    font-weight: 500;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, background 0.2s ease;
+    font-weight: 600;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+#course-container > div::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #bdc3c7, #95a5a6, #7f8c8d);
 }
 
 #course-container > div:hover {
-    transform: translateY(-4px);
-    background-color: #b2ebf2;
+    transform: translateY(-8px) scale(1.05);
+    background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+    border-color: #bdc3c7;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
 }
 
 /* Responsive tweaks */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .home-container {
         grid-template-columns: 1fr;
+        height: auto;
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2.2rem;
+        margin: 1.5rem 0;
     }
 
     #course-container {
         grid-template-columns: 1fr;
+    }
+    
+    .home-card {
+        padding: 2rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .home-card {
+        padding: 1.5rem 1rem;
     }
 }
