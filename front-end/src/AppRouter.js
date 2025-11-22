@@ -1,8 +1,7 @@
 import { Component } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
-import App from './App';
-import GameMainPage from './components/game-page/GameMainPage';
-import HOme from './components/Home';
+import Game from './components/game-page/Game';
+import Home from './components/Home';
 import OptionList from './components/game-page/OptionList';
 
 class AppRouter extends Component {
@@ -11,8 +10,9 @@ class AppRouter extends Component {
             <BrowserRouter forceRefresh={true}>
                 <Routes>
                         <Route index={true} element={<Home/>}/>
-                        <Route path="gamemain" element={<GameMainPage />} />
-                        <Route path="gamemain/:id" element={<OptionList />} />
+                        <Route path="gamemain" element={<Game />}>
+                            <Route path="/:id" element={<OptionList />} />
+                        </Route>
                 </Routes>
             </BrowserRouter>
         )
