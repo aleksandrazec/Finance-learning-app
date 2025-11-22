@@ -35,6 +35,24 @@ app.use(session({
 }))
 
 
+// importing routes
+const user = require('./routes/user.js')
+app.use('/user', user)
+
+const course = require('./routes/course.js')
+app.use('/course', course)
+
+const lecture = require('./routes/lecture.js')
+app.use('/lecture', lecture)
+
+const quiz = require('./routes/quiz.js')
+app.use('/lecture', quiz)
+
+const game = require('./routes/game.js')
+app.use('/game', game)
+
+const stock = require('./routes/stock.js')
+app.use('/game', stock)
 
 http.createServer(app).listen(PORT, () => console.log(`http server listening on port ${PORT}`))
 
