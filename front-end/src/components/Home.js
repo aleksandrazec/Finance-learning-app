@@ -14,6 +14,10 @@ function Home() {
         setCourses(courseData);
     }
 
+    function removeCourses(){
+        setCourses([]);
+    }
+
     return (
         <>
             <div><h1>Title</h1></div>
@@ -25,7 +29,7 @@ function Home() {
                 
                 {/*One parent div for both cards*/}
                 <div>
-                    <div className="home-card" id="courseBtn" onClick={createCourses}> 
+                    <div className="home-card" id="courseBtn" onClick={createCourses} onDoubleClick={removeCourses}> 
                         <h2>
                             Courses
                         </h2>
@@ -34,13 +38,16 @@ function Home() {
                     {/*Create and map each of the given courses*/}
                     <div id="course-container">
                         {courses.map((course, index) => (
-                            <div key={index}>{course}</div>))}
+                        <div key={index} className="course-item">{course}</div>))}
                     </div>
                 </div>
-
-                <div className="home-card">
-                    <Link to = "/profile">Profile</Link>
-                </div>
+                
+                {/*Go to the profile page*/}
+                <Link to = "/profile">
+                    <div className="home-card">
+                        Profile
+                    </div>
+                </Link>
             </div>
         </>
     );
