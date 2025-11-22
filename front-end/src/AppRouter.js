@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import App from './App';
 import GameMainPage from './components/game-page/GameMainPage';
-import HOme from './components/Home';
+import Home from './components/Home';
 import OptionList from './components/game-page/OptionList';
 
 class AppRouter extends Component {
