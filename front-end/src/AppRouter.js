@@ -19,8 +19,9 @@ class AppRouter extends Component {
 
                         <Route path="/profile" element={<Profile />} />
 
-                        <Route path="gamemain" element={<Game />}>
-                            <Route path="/:id" element={<OptionList />} />
+                         <Route path="gamemain" element={<Game />}>
+                            <Route index element={<GameMain />} />
+                            <Route path=":id" element={<OptionList />} />
                         </Route>
 
                     </Route>
