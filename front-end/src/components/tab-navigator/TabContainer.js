@@ -1,5 +1,5 @@
 import TabItem from './TabItem';
-import { UserContext } from '../../Context'
+import { UserContext } from '../../UserContext'
 import { useContext } from 'react'
 import './styles.css'
 

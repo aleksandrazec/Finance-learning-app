@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MainOption from './MainOption';
+import { GameContext } from './GameContext';
 
 function GameMain(props) {
 

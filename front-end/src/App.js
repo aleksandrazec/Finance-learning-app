@@ -2,7 +2,7 @@ import './App.css';
 import TabContainer from './components/tab-navigator/TabContainer';
 import { Outlet } from 'react-router';
 import { useState, useEffect } from 'react';
-import { UserContext } from './Context'
+import { UserContext } from './UserContext'
 import api from './services/api'
 
 function App(props) {

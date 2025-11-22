@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GameContext } from './Context';
+import { GameContext } from './GameContext';
 import { Outlet } from 'react-router';
 
 function Game(props) {
