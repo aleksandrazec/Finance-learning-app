@@ -1,0 +1,4 @@
+lecture, 1
+lecture, 2
+quiz, 1
+game, 1
