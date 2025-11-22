@@ -246,3 +246,6 @@ dataPool.getGame = (id) => {
 // get stocks?
 
 // end Stock
+
+
+module.exports = dataPool;
