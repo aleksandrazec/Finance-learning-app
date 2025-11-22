@@ -1,49 +1,78 @@
-/* Main container */
+/* General page styles */
+body {
+    font-family: 'Inter', 'Roboto', sans-serif;
+    background-color: #f4f6f8;
+    margin: 0;
+    padding: 0;
+}
+
+/* Title at top */
+h1 {
+    text-align: center;
+    margin: 2rem 0;
+    font-size: 2.2rem;
+    color: #333;
+}
+
+/* Main container for the cards */
 .home-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2rem;
-    padding: 3rem;
-    max-width: 900px;
-    margin: auto;
-
-    animation: fadeIn 0.5s ease-in-out;
+    max-width: 1000px;
+    margin: 0 auto 3rem auto;
+    padding: 0 1rem;
 }
 
-/* Card styles */
+/* Individual cards */
 .home-card {
-    background: #ffffff;
-    border-radius: 1.2rem;
-    padding: 2.5rem 1.5rem;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 2rem 1rem;
     text-align: center;
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
-/* Title styling */
-.home-card h2 {
-    margin: 0;
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: #333;
-}
-
-/* Hover effects */
+/* Hover effect for cards */
 .home-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 14px 26px rgba(0, 0, 0, 0.12);
-    background: #f7f7f7;
 }
 
-/* Smooth fade-in animation */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
+/* Course container (below the Courses card) */
+#course-container {
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+}
+
+/* Individual course boxes */
+#course-container > div {
+    background-color: #e0f7fa;
+    color: #00796b;
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#course-container > div:hover {
+    transform: translateY(-4px);
+    background-color: #b2ebf2;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+    .home-container {
+        grid-template-columns: 1fr;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    #course-container {
+        grid-template-columns: 1fr;
     }
 }
