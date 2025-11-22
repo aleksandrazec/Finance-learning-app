@@ -96,7 +96,7 @@ dataPool.getCourse = (id) => {
 }
 
 // Get all course list
-dataPool.getCourse = (id) => {
+dataPool.getAllCourses = () => {
     return new Promise((resolve, reject) => {  
         conn.query("SELECT * FROM Course", id, (err, res) => {
             if(err){
