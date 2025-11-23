@@ -286,7 +286,7 @@ dataPool.addStocksBatch = (values_text_formatted) => {
 dataPool.getStocksFor365Days = (date) => {
     return new Promise((resolve, reject) => {
         let js_date = new Date(date)
-        const last_date = "" + (js_date.getFullYear() + 1) + "-" + js_date.getMonth() + "-" + (js_date.getDate() != 29 ? js_date : js_date - 1);  // to avoid having 29th feb in non-leap years
+        const last_date = "" + (js_date.getFullYear() + 1) + "-" + js_date.getMonth() + "-" + (js_date.getDate() != 29 ? js_date.getDate() : js_date.getDate() - 1);  // to avoid having 29th feb in non-leap years
         conn.query("SELECT * FROM Stock WHERE date >= ? AND date < ?", [date, last_date], (err, res) => {
             if(err){
                 return reject(err)

@@ -1,11 +1,12 @@
 import { useState, useEffect, useContext, createContext } from "react";
 import { GameContext } from "./GameContext";
-import { Outlet, useParams } from "react-router";
+import { Outlet, useNavigate, useParams } from "react-router";
 import "./styles.css";
 import api from "../../services/api";
 
 function Game(props) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [dynamicGameInfo, setDynamicGameInfo] = useState({
     currentBalance: 0,
     saving: 0,
@@ -48,25 +49,29 @@ function Game(props) {
     setDynamicGameInfo
   }
 
+  const finishGameScreen = () => {
+    navigate(`./finish`);
+  }
+
   return (
     <GameContext.Provider value={{ dynamicGameInfo, setDynamicGameInfo }}>
       <div className="game-container">
         <header className="game-header">
           <p className="MainText">
             You got paid ${gameInfo.start_money}. Your living expenses are $
-            {gameInfo.living_cost}. How will you allocate your remaining money? {dynamicGameInfo.date};
+            {gameInfo.living_cost}. How will you allocate your remaining money?;
           </p>
         </header>
 
         <main className="game-content">
-          <Outlet />
+          <Outlet context={{ currentDate: dynamicGameInfo.date }} />
         </main>
 
         <footer className="game-footer">
           <p className="MainText">
             Current balance: ${dynamicGameInfo?.currentBalance || 0}
           </p>
-          <button className="finish-btn">Finish</button>
+          <button className="finish-btn" onClick={finishGameScreen}>Finish</button>
         </footer>
       </div>
     </GameContext.Provider>
