@@ -35,7 +35,7 @@
     100% { left: 100%; }
 }
 
-.navbarcontent{
+.nav-bar-content{
     text-decoration: none;
     font-size: 1.5rem;
     color: #a0a0a0;
@@ -48,6 +48,10 @@
     align-items: center;
     justify-content: center;
     min-width: fit-content;
+}
+
+.tab-item{
+    color: white;
 }
 
 .nav-bar-content::before {

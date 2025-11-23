@@ -23,9 +23,9 @@ function Home() {
     const [courses, setCourses] = useState([]);
     // const [selectedCourse, setSelectedCourse] = useState(null);
 
-    useEffect(() => {
-        setCourses(courseData);
-    }, []);
+    // useEffect(() => {
+    //     setCourses(courseData);
+    // }, []);
 
     // // Click function for individual courses
     // function selectCourse(course, index) {
@@ -34,8 +34,6 @@ function Home() {
 
     return (
         <>
-            <TabContainer />
-
             <div id="course-card">
                 <h1>Courses</h1>
 

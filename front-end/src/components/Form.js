@@ -9,7 +9,7 @@ function Form() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,11 +19,11 @@ function Form() {
     const logIn = async () => {
         if (username && email && password) {
             try {
-                const response = await api.post(`/users/login`, { username: username, email: email, password: password });
+                // const response = await api.post(`/users/login`, { username: username, email: email, password: password });
                 
                 console.log('Login successful');
 
-                navigate('/home');
+                // navigate('/home');
             } catch (error) {
                 console.error(error);
             }
@@ -32,7 +32,6 @@ function Form() {
 
     return (
         <>
-            <TabContainer />
 
             <img src={growthImg} id="growthImg"></img>
 

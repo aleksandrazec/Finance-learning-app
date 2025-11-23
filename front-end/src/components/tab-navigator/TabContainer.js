@@ -1,17 +1,16 @@
 import TabItem from './TabItem';
-import { UserContext } from '../../Context'
+import { UserContext } from '../../UserContext';
 import { useContext } from 'react'
 import './styles.css'
 
 //Update this later on so it will fit properly with the dynamic code
-let check = 0;
 
 function TabContainer({ children }) {
     const user = useContext(UserContext)
     const getTabs = () => {        
 
         //Student role
-        if (check === 0) {
+        if (user.role === 0) {
             return [
                 {
                     text: 'Courses',
@@ -71,7 +70,7 @@ function TabContainer({ children }) {
                         key={text}
                         text={text}
                         url={url}
-                        className = "navbarcontent"
+                        className = "nav-bar-content"
                     />)
                 }
             </div>

@@ -60,12 +60,13 @@
     object-fit: contain;
     border-radius: 50%;
     padding: 10px; /* Increased padding */
-    margin: 10px auto;
+    margin: 20px auto;
     background: linear-gradient(135deg, rgba(235, 123, 26, 0.1), rgba(240, 163, 90, 0.1));
     border: 2px solid rgba(235, 123, 26, 0.2);
     transition: all 0.3s ease;
     animation: float 3s ease-in-out infinite;
     position: relative;
+    left: 330px;
     z-index: 3;
 }
 
