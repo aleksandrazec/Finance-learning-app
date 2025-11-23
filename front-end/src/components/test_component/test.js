@@ -2,7 +2,7 @@
 import api from '../../services/api.js'
 import { useState } from 'react'
 
-export default function test(props){
+export default function Test(props){
 
     const [state, setState ] = useState({
         text : ''
@@ -15,7 +15,7 @@ export default function test(props){
     const sendPostRequests = async () => {
         const lines = state.text.split("\n")
         let sequence, req_body;
-        for(i=0; i<lines.length; i++){
+        for(let i=0; i<lines.length; i++){
             try{
                 sequence = lines[i].split(",")
                 req_body = {

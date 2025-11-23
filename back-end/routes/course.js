@@ -19,6 +19,18 @@ course.get('/list', async (req, res, next) => {
     }
 })
 
+course.get('/list/:id', async (req, res, next) => {
+    try{
+        const { id } = req.params;
+        const queryResult = await db.getCourseByAdvisor(id)
+        res.json(queryResult)
+    }catch(err){
+        console.log("Error at /course/list route:")
+        console.log(err)
+        res.sendStatus(500)
+    }
+})
+
 // get course lectures
 course.get('/:course_id/lecture', async (req, res, next) => {
     try{
@@ -86,16 +98,16 @@ course.get('/:id', async (req, res, next) => {
 course.post('/', urlencodedParser, async (req, res) => {
     try {
         console.log(req.body)
-        const { title, advisor_id, difficulty, description, structure_file } = req.body;
+        const { title, advisor_id, difficulty, description } = req.body;
 
-        if (title && advisor_id && difficulty && description && structure_file) {
+        if (title && advisor_id && difficulty && description) {
             
             // Generate filename for the structure file
             const timestamp = Date.now();
             const filename = `structure_${timestamp}_${title.replace(/\s+/g, '_')}.txt`;
             const filePath = path.join(__dirname, '../structure_files/', filename);
             
-            const queryResult = await db.createCourse(title, advisor_id, difficulty, description, structure_file)
+            const queryResult = await db.createCourse(title, advisor_id, difficulty, description, filename)
             
             if (queryResult.affectedRows) {
                 // Create structure file after successful database insertion
@@ -145,5 +157,7 @@ course.post('/', urlencodedParser, async (req, res) => {
         res.status(500).send({ status: { success: false, message: "Internal server error" } })
     }
 })
+
+
 
 module.exports = course;

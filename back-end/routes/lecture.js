@@ -30,35 +30,94 @@ lecture.get('/:id', async (req, res, next) => {
 })
 
 // create a lecture
-lecture.post('/', urlencodedParser, async (req, res) =>{
-    try{
+lecture.post('/', urlencodedParser, async (req, res) => {
+    try {
+        const { title, text_file, course_id } = req.body;
 
-        // todo - handling file upload
-
-        const { title, text_file, course_id } = req.body
-
-        if(title && text_file && course_id){
-
-            const queryResult = await db.createLecture(title, text_file, course_id)
-            if(queryResult.affectedRows){
-                res.status(200)
-                res.send({status : {success : true, message : "Successfully created a lecture!"}})
-            }else{
-                res.status(500)
-                res.send({status : {success : false, message : "Error while creating a lecture! Try again!"}})
-            }
-        }else{
-            res.status(204)
-            res.send({status : {success : false, message : "Missing a field!"}})
+        if (!title || !text_file || !course_id) {
+            return res.status(400).send({
+                status: {
+                    success: false,
+                    message: "Missing one or more required fields!"
+                }
+            });
         }
 
+        // Create the lecture first
+        const queryResult = await db.createLecture(title, text_file, course_id);
+        
+        if (!queryResult.affectedRows) {
+            return res.status(500).send({
+                status: {
+                    success: false,
+                    message: "Error while creating a lecture! Try again!"
+                }
+            });
+        }
 
+        // Get the inserted lecture ID
+        const lectureId = queryResult.insertId;
+        const new_line = `lecture, ${lectureId}`;
 
-    }catch(err){
-        console.log('Error at pos /lecture/ route:')
-        console.log(err)
-        res.sendStatus(500)
+        // Get course information for structure file
+        const courseResult = await db.getCourse(course_id);
+        if (!courseResult.length) {
+            return res.status(404).send({
+                status: {
+                    success: false,
+                    message: "Course not found!"
+                }
+            });
+        }
+
+        const structureFilename = courseResult[0].structure_file;
+        if (!structureFilename) {
+            return res.status(404).send({
+                status: {
+                    success: false,
+                    message: "Structure file not found for this course!"
+                }
+            });
+        }
+
+        const filePath = path.join(__dirname, '../structure_files/', structureFilename);
+        
+        // Check if structure file exists
+        try {
+            await fs.access(filePath);
+        } catch (error) {
+            return res.status(404).send({
+                status: {
+                    success: false,
+                    message: "Structure file does not exist on server!"
+                }
+            });
+        }
+
+        // Read and update structure file
+        const currentContent = await fs.readFile(filePath, 'utf8');
+        const updatedContent = currentContent + '\n' + new_line.trim();
+        await fs.writeFile(filePath, updatedContent, 'utf8');
+        
+        // Send success response
+        res.status(200).send({
+            status: {
+                success: true,
+                message: "Successfully created a lecture and updated structure file!",
+                structure_file: structureFilename,
+                lecture_id: lectureId
+            }
+        });
+
+    } catch (err) {
+        console.log('Error at post /lecture/ route:');
+        console.log(err);
+        res.status(500).send({
+            status: {
+                success: false,
+                message: "Internal server error while creating lecture"
+            }
+        });
     }
-})
-
+});
 module.exports = lecture;
