@@ -1,58 +1,45 @@
 import TabItem from './TabItem';
 import { UserContext } from '../../UserContext'
-import { useContext } from 'react'
+import { useState, useContext } from 'react'
 import './styles.css'
 
 function TabContainer({ children }) {
     const user = useContext(UserContext)
+    
+
+    const [ login, courses, profile, forums, create_course ] = [
+                {
+                    text: 'Login - todo url',
+                    url: '/',
+                },
+                {
+                    text: 'Courses',
+                    url: '/',
+                },
+                {
+                    text: 'Profile',
+                    url: '/profile',
+                },
+                {
+                    text: 'Forums',
+                    url: 'forum',
+                },
+                {
+                    text: 'Create a course',
+                    url: '/createcourse',
+                }
+            ]
+
+    const [ state, setState ] = useState({})
+    
     const getTabs = () => {
         if (user.role === 0) {
             //make urls correct
-            return [
-                {
-                    text: 'Courses',
-                    url: '/',
-                },
-                {
-                    text: 'Profile',
-                    url: '/facultiesgen',
-                },
-                {
-                    text: 'Forums',
-                    url: '/forumshome',
-                }
-            ]
+            return [ courses, profile, forums]
         } else if (user.role === 1) {
-            return [
-                {
-                    text: 'Courses',
-                    url: '/',
-                },
-                {
-                    text: 'Profile',
-                    url: '/facultiesgen',
-                },
-                {
-                    text: 'Forums',
-                    url: '/forumshome',
-                }
-            ]
+            return [ courses, profile, forums, create_course ]
         } else {
-             return [
-                //make all urls lead to login
-                {
-                    text: 'Courses',
-                    url: '/',
-                },
-                {
-                    text: 'Profile',
-                    url: '/facultiesgen',
-                },
-                {
-                    text: 'Forums',
-                    url: '/forumshome',
-                }
-            ]
+             return [login]
         }
     }
     return (
