@@ -59,7 +59,7 @@ function Game(props) {
         <header className="game-header">
           <p className="MainText">
             You got paid ${gameInfo.start_money}. Your living expenses are $
-            {gameInfo.living_cost}. How will you allocate your remaining money? {dynamicGameInfo.date};
+            {gameInfo.living_cost}. How will you allocate your remaining money?;
           </p>
         </header>
 

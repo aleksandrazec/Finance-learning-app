@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import ForumCard from './ForumCard'
 import api from '../../services/api'
+import { useNavigate } from 'react-router'
 
 function ForumsHome(props) {
     const [forums, setForums] = useState()
-
+    const navigate = useNavigate()
     useEffect(() => {
         const getForums = () => {
             try {
@@ -21,11 +22,18 @@ function ForumsHome(props) {
         
         getForums();
     }, [])
-
+    const goToCreate = async () => {
+        try {
+            navigate(`/createforum`)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <div>
             <h1>Forums</h1>
+            <button onClick={()=>goToCreate()}>Create Forum</button>
             {
                 forums ?
                 forums.map(forum=>

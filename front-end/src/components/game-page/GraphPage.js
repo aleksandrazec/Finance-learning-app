@@ -13,11 +13,19 @@ const GraphPage = ({ data }) => {
     if (!regex.test(dateString)) return false;
     
     const date = new Date(dateString);
-    return date instanceof Date && !isNaN(date);
+    const timestamp = date.getTime();
+    return typeof timestamp === 'number' && !isNaN(timestamp);
   };
 
   useEffect(() => {
     const fetchStockData = async () => {
+      // Check if data is provided
+      if (!data) {
+        setError('No date provided. Please select a date.');
+        setLoading(false);
+        return;
+      }
+
       // Validate input format
       if (!isValidDateFormat(data)) {
         setError(`Invalid date format. Please use yyyy-mm-dd format. Received: ${data}`);
@@ -33,16 +41,32 @@ const GraphPage = ({ data }) => {
         const response = await api.get(`/stock/year/${data}`);
         console.log('API Response:', response.data);
         
+        if (!response.data || !Array.isArray(response.data)) {
+          throw new Error('Invalid response format from server');
+        }
+
         // Ensure all dates in the response are in yyyy-mm-dd format
-        const formattedData = response.data.map(item => ({
-          ...item,
-          Date: item.Date ? new Date(item.Date).toISOString().split('T')[0] : ''
-        })).filter(item => item.Date); // Remove any items with invalid dates
+        const formattedData = response.data
+          .map(item => {
+            if (!item || typeof item !== 'object') return null;
+            
+            const date = item.Date ? new Date(item.Date) : null;
+            const closePrice = parseFloat(item.Close);
+            
+            return {
+              ...item,
+              Date: date && !isNaN(date.getTime()) ? date.toISOString().split('T')[0] : '',
+              Close: !isNaN(closePrice) ? closePrice : 0
+            };
+          })
+          .filter(item => item && item.Date && !isNaN(item.Close)); // Remove any items with invalid dates or prices
         
+        console.log('Formatted data:', formattedData);
         setStockData(formattedData);
+        
       } catch (err) {
         console.error('Full error details:', err);
-        setError(`Failed to fetch stock data: ${err.response?.data?.message || err.message}`);
+        setError(`Failed to fetch stock data: ${err.response?.data?.message || err.message || 'Unknown error'}`);
       } finally {
         setLoading(false);
       }
@@ -51,9 +75,9 @@ const GraphPage = ({ data }) => {
     fetchStockData();
   }, [data]);
 
-  if (loading) return <div>Loading graph...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!stockData.length) return <div>No data available for the selected date</div>;
+  if (loading) return <div className="loading">Loading graph...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
+  if (!stockData.length) return <div className="no-data">No data available for the selected date</div>;
 
   return (
     <div style={{ width: '100%', height: 400 }}>
@@ -62,16 +86,31 @@ const GraphPage = ({ data }) => {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis 
             dataKey="Date" 
-            tickFormatter={(date) => new Date(date).toLocaleDateString()}
+            tickFormatter={(date) => {
+              try {
+                return new Date(date).toLocaleDateString();
+              } catch {
+                return date;
+              }
+            }}
           />
           <YAxis 
             dataKey="Close"
             domain={['dataMin - 10', 'dataMax + 10']}
-            tickFormatter={(value) => `$${value.toFixed(2)}`}
+            tickFormatter={(value) => `$${typeof value === 'number' ? value.toFixed(2) : '0.00'}`}
           />
           <Tooltip 
-            formatter={(value) => [`$${value.toFixed(2)}`, 'Close Price']}
-            labelFormatter={(date) => `Date: ${new Date(date).toLocaleDateString()}`}
+            formatter={(value) => {
+              const numValue = typeof value === 'number' ? value : parseFloat(value);
+              return [`$${!isNaN(numValue) ? numValue.toFixed(2) : '0.00'}`, 'Close Price'];
+            }}
+            labelFormatter={(date) => {
+              try {
+                return `Date: ${new Date(date).toLocaleDateString()}`;
+              } catch {
+                return `Date: ${date}`;
+              }
+            }}
           />
           <Line 
             type="monotone" 
@@ -79,6 +118,7 @@ const GraphPage = ({ data }) => {
             stroke="#8884d8" 
             strokeWidth={2}
             dot={false}
+            isAnimationActive={true}
           />
         </LineChart>
       </ResponsiveContainer>

@@ -1,26 +1,51 @@
+/* ===== Global Styles ===== */
 * {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* ===== Global Typography ===== */
+h1 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #eb7b1a;
+    margin: 0;
+}
+
+/* ===== Tab Navigation Bar ===== */
 .tab-navigator {
     position: sticky;
     top: 0;
-    z-index: 999;
-    width: 100%;
+    z-index: 3;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    left: 0;
 }
 
 .tab-container {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     gap: 10px;
-    background-color: #2B2D42;
-    padding: 0 10px;
+    background-color: #2f2f2f;
+    padding: 10px;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    left: 0;
+    border-bottom: 3px solid #eb7b1a;
 }
 
 .tab-item {
     padding: 10px 15px;
-    transition: background 0.3s ease;
+    border-radius: 4px;
+    transition: background-color 0.25s ease;
 }
 
 .tab-item a {
@@ -31,111 +56,111 @@
 }
 
 .tab-item:hover {
-    background-color: #8D99AE;
-    border-radius: 4px;
+    background-color: #f0a35a;
+}
+
+.tab-item.active {
+    background-color: #eb7b1a;
 }
 
 .tab-item:last-child {
     margin-left: auto;
 }
 
+/* ===== Main Content Container ===== */
+.main-container {
+    width: 100vw;
+    min-height: 100vh;
+    padding: 20px;
+    margin: 0;
+    background-color: #f5f5f5; /* Optional: Add background color for full screen */
+}
+
+/* ===== Table Styling ===== */
 table {
     border-collapse: collapse;
     width: 100%;
-    margin-top: 1%;
-    margin-bottom: 1%;
+    margin: 1% 0;
 }
 
-th,
-td {
-    padding: 8px;
+th, td {
+    padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-tr:hover {
-    background-color: #8D99AE;
-    color: white
+th {
+    background-color: #eb7b1a;
+    color: white;
 }
 
+tr:hover {
+    background-color: #f0a35a;
+    color: white;
+}
+
+/* ===== Buttons ===== */
 button {
-    background-color: #111827;
-    border: 1px solid transparent;
+    background-color: #eb7b1a;
+    border: none;
     border-radius: .75rem;
-    box-sizing: border-box;
-    color: #FFFFFF;
-    cursor: pointer;
-    flex: 0 0 auto;
-    font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    padding: 12px 20px;
+    color: #fff;
     font-weight: 600;
-    padding: 1%;
-    text-align: center;
-    text-decoration: none #6B7280 solid;
-    text-decoration-thickness: auto;
-    transition-duration: .2s;
-    transition-property: background-color, border-color, color, fill, stroke;
-    transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+    font-family: "Inter var", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
     width: auto;
 }
 
 button:hover {
-    background-color: #374151;
+    background-color: #f0a35a;
 }
 
 button:focus {
-    box-shadow: none;
-    outline: 2px solid transparent;
-    outline-offset: 2px;
+    outline: none;
 }
 
+button:disabled {
+    background-color: #a0a0a0;
+    cursor: not-allowed;
+}
+
+/* Secondary Button */
+button.secondary {
+    background-color: #a0a0a0;
+}
+
+button.secondary:hover {
+    background-color: #b8b8b8;
+}
+
+/* Full-width elements */
+.full-width {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+}
+
+/* Larger screen tweaks */
 @media (min-width: 768px) {
     button {
-        padding: .75rem 1.5rem;
+        padding: .85rem 1.75rem;
+    }
+    
+    .main-container {
+        padding: 30px;
     }
 }
 
-input.comment {
-    padding: 0.1% !important;
-}
-
-.reply {
-    margin-left: 3%;
-}
-
-.reply-button {
-    padding: 0.3%
-}
-
-.subfilter {
-    margin-left: 2%;
-}
-
-input {
-    accent-color: #EF233C;
-    font-size: large;
-}
-
-label {
-    font-size: larger;
-}
-
-.search-bar {
-    padding: 1%;
-    width: 50%;
-}
-
-.buttons-list {
-    margin-top: 0.5%;
-}
-
-.search-button {
-    margin-left: 0.5%;
-}
-
-select,
-datalist {
-    font-size: large;
+/* Ensure tables stretch full width on mobile */
+@media (max-width: 767px) {
+    table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+    }
+    
+    th, td {
+        padding: 8px 10px;
+    }
 }

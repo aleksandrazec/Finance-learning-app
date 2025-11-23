@@ -1,6 +1,7 @@
 
 
 
+
 const mysql = require('mysql2')
 
 const conn = mysql.createConnection({
@@ -285,7 +286,7 @@ dataPool.addStocksBatch = (values_text_formatted) => {
 dataPool.getStocksFor365Days = (date) => {
     return new Promise((resolve, reject) => {
         let js_date = new Date(date)
-        const last_date = "" + (js_date.getFullYear + 1) + "-" + js_date.getMonth + "-" + (js_date.getDate != 29 ? js_date : js_date - 1);  // to avoid having 29th feb in non-leap years
+        const last_date = "" + (js_date.getFullYear() + 1) + "-" + js_date.getMonth() + "-" + (js_date.getDate() != 29 ? js_date.getDate() : js_date.getDate() - 1);  // to avoid having 29th feb in non-leap years
         conn.query("SELECT * FROM Stock WHERE date >= ? AND date < ?", [date, last_date], (err, res) => {
             if(err){
                 return reject(err)
@@ -296,5 +297,72 @@ dataPool.getStocksFor365Days = (date) => {
 }
 // end Stock
 
+
+//forums
+
+dataPool.findForum=(id)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`SELECT prompt, DATE_FORMAT(date, "%M %d %Y") AS date, name, Forum.user_id, Forum.id FROM Forum INNER JOIN User on User.user_id=User.id WHERE Forum.id= ?`, [id], (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+
+dataPool.listForumsDSC=()=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`SELECT prompt, DATE_FORMAT(date, "%M %d %Y") AS date, name, Forum.user_id, Forum.id FROM Forum INNER JOIN User on Forum.user_id=User.id ORDER BY date DESC`, (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.getReplies=(id)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`SELECT Comment.id , text, DATE_FORMAT(Comment.date, "%M %d %Y") AS date, reply_id, username, Comment.user_id, forum_id FROM Comment INNER JOIN User on Comment.user_id=User.id INNER JOIN Forum ON Forum.id=Comment.forum_id WHERE reply_id = ? `, id, (err,res)=>{
+      if(err){return reject(err)}
+      console.log(res)
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.getComments=(id)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`SELECT Comment.id , text, DATE_FORMAT(Comment.date, "%M %d %Y") AS date, reply_id, username, Comment.user_id, forum_id FROM Comment INNER JOIN User on Comment.user_id=User.id INNER JOIN Forum ON Forum.id=Comment.forum_id WHERE reply_id IS NULL AND forum_id = ? `, id, (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.createReply=(text, userID, forumID, replyID)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`INSERT INTO Comment (text, user_id, forum_id, reply_id) VALUES (?,?,?,?)`, [text, userID, forumID, replyID], (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.createComment=(text, userID, forumID)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`INSERT INTO Comment (text, user_id, forum_id) VALUES (?,?,?)`, [text, userID, forumID], (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.createForum=(prompt, userID)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`INSERT INTO Forum (prompt, user_id) VALUES (?,?)`, [prompt, userID], (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
 
 module.exports = dataPool;
