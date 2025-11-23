@@ -50,12 +50,23 @@ stock.post('/batch', urlencodedParser, async (req, res) => {
 })
 
 
+stock.get('/year/:date', async (req, res, next) => {
+    try{
+        const queryResult = await db.getStocksFor365Days(req.params.date)
+        res.json(queryResult)
+    }catch(err){
+        console.log("Error at /stock/year/:date route")
+        console.log(err)
+        res.sendStatus(500)
+    }
+})
+
 stock.get('/:date', async (req, res, next) => {
     try {
         const queryResult = await db.getCompanyName(req.params.date)
         res.json(queryResult)
     } catch (err) {
-        console.log("Error at /stock/companyname route")
+        console.log("Error at /stock/:date route")
         console.log(err)
         res.sendStatus(500)
     }
