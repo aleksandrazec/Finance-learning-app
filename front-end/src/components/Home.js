@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import "../styles/Home.css";
 import TabContainer from "./tab-navigator/TabContainer";
 import CourseCard from "./CourseCard";
+import { UserContext } from '../UserContext.js'
+
 
 // const courseData = [
 //   { 
@@ -31,6 +33,13 @@ function Home() {
     // function selectCourse(course, index) {
     //     setSelectedCourse(course);
     // }
+
+
+    const { userInfo, setUserInfo } = useContext(UserContext)
+    useEffect(() => {
+        console.log("User context info:")
+        console.log(userInfo)
+    }, [])
 
     return (
         <>
