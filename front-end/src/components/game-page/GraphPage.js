@@ -1,101 +1,89 @@
-import { useState, useEffect } from "react";
-import api from "../../services/api";
+import React, { useState, useEffect } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import api from '../../services/api';
 
-function GraphPage(props) {
-    const [sortedClosePrices, setSortedClosePrices] = useState([]);
+const GraphPage = ({ data }) => {
+  const [stockData, setStockData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    const{
-        currentDate,
-        companyId
-    }=props;
-
-    // function that calls db query (input: currentDate, companyId) 
-    // output: 2 lists of all values from (currentDate - year) to currentDate
+  // Function to validate yyyy-mm-dd format
+  const isValidDateFormat = (dateString) => {
+    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!regex.test(dateString)) return false;
     
-    useEffect(() => {
-        api.get() // I will implement later no need to touch
-        .then(res => {setSortedClosePrices(res.data)})
-        .catch(err => console.error(err));
-    }, [])
+    const date = new Date(dateString);
+    return date instanceof Date && !isNaN(date);
+  };
 
-    // second function that generates a graph from those of 2 lists
+  useEffect(() => {
+    const fetchStockData = async () => {
+      // Validate input format
+      if (!isValidDateFormat(data)) {
+        setError(`Invalid date format. Please use yyyy-mm-dd format. Received: ${data}`);
+        setLoading(false);
+        return;
+      }
 
-    const generateGraph = () => {
-        if (!sortedClosePrices || sortedClosePrices.length === 0) {
-            return <div>No data available</div>
-        }
-
-        const width = 600;
-        const height = 400;
-        const padding = 50;
-
-        const values = sortedClosePrices;
-        const minValue = Math.min(...values);
-        const maxValue = Math.max(...values);
-        const valueRange = maxValue - minValue;
-
-        const points = values.map((value, index) => {
-            const x = padding + (index / (values.length - 1)) * (width - 2 * padding);
-            const y = height - padding - ((value - minValue) / valueRange) * (height - 2 * padding);
-            return `${x},${y}`;
-        }).join(" ");
-
-        const xAxisLabels = values
-            .filter((_, index) => index % Math.ceil(values.length / 5) === 0)
-            .map((_, index) => {
-                const positionIndex = index * Math.ceil(values.length / 5);
-                const x = padding + (positionIndex / (values.length - 1)) * (width - 2 * padding);
-                return (
-                    <text key={index} x={x} y={height - 1} textAnchor="middle" fontSize="12">
-                        Day {positionIndex + 1}
-                    </text>
-                );
-            });
-
-        const yAxisLabels = [];
-        const numYLabels = 5;
-        for (let i = 0; i <= numYLabels; i++) {
-            const value = minValue + (i / numYLabels) * valueRange;
-            const y = height - padding - (i / numYLabels) * (height - 2 * padding);
-            yAxisLabels.push(
-                <text key={i} x={padding - 10} y={y + 3} textAnchor="end" fontSize="12">
-                    {value.toFixed(2)}
-                </text>
-            );
-        }
-
-        return (
-            <svg width={width} height={height} style={{border: "1px solid #ccc"}}>
-                <line x1={padding} y1={padding} x2={padding} y2={height - padding} stroke="black"/>
-                <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="black"/>
-
-                <polyline points={points} fill="none" stroke="black" strokeWidth="2"/>
-
-                {points.split(" ").map((point, index) => {
-                    const [x, y] = point.split(",").map(Number);
-                    return (
-                        <circle key={index} cx={x} cy={y} r="3" fill="red"/>
-                    );
-                })}
-
-                {xAxisLabels}
-                {yAxisLabels}
-
-                <text x={width / 2} y={height - 15} textAnchor="middle" fontSize="14">
-                    Date
-                </text>
-                <text x={15} y={height / 2} textAnchor="middle" fontSize="14" transform={`rotate(-90, 15, ${height / 2})`}>
-                    Price
-                </text>
-            </svg>
-        );
+      try {
+        setLoading(true);
+        setError(null);
+        console.log('Making API request to:', `/stock/year/${data}`);
+        
+        const response = await api.get(`/stock/year/${data}`);
+        console.log('API Response:', response.data);
+        
+        // Ensure all dates in the response are in yyyy-mm-dd format
+        const formattedData = response.data.map(item => ({
+          ...item,
+          Date: item.Date ? new Date(item.Date).toISOString().split('T')[0] : ''
+        })).filter(item => item.Date); // Remove any items with invalid dates
+        
+        setStockData(formattedData);
+      } catch (err) {
+        console.error('Full error details:', err);
+        setError(`Failed to fetch stock data: ${err.response?.data?.message || err.message}`);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    return(
-        <div>
-            {generateGraph()}
-        </div>
-    )
-}
+    fetchStockData();
+  }, [data]);
+
+  if (loading) return <div>Loading graph...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!stockData.length) return <div>No data available for the selected date</div>;
+
+  return (
+    <div style={{ width: '100%', height: 400 }}>
+      <ResponsiveContainer>
+        <LineChart data={stockData}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis 
+            dataKey="Date" 
+            tickFormatter={(date) => new Date(date).toLocaleDateString()}
+          />
+          <YAxis 
+            dataKey="Close"
+            domain={['dataMin - 10', 'dataMax + 10']}
+            tickFormatter={(value) => `$${value.toFixed(2)}`}
+          />
+          <Tooltip 
+            formatter={(value) => [`$${value.toFixed(2)}`, 'Close Price']}
+            labelFormatter={(date) => `Date: ${new Date(date).toLocaleDateString()}`}
+          />
+          <Line 
+            type="monotone" 
+            dataKey="Close" 
+            stroke="#8884d8" 
+            strokeWidth={2}
+            dot={false}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+};
 
 export default GraphPage;

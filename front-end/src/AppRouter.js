@@ -11,6 +11,7 @@ import CreateCourse from './components/advisor-view/CreateCourse';
 import Test from './components/test_component/test';
 import ViewCourses from './components/advisor-view/ViewCourses';
 import CoursePage from './components/advisor-view/CoursePage';
+import FinishScreen from './components/game-page/FinishScreen';
 
 class AppRouter extends Component {
     render() {
@@ -27,6 +28,7 @@ class AppRouter extends Component {
                          <Route path="game/:id" element={<Game />}>
                             <Route index={true} element={<GameMain />} />
                             <Route path="trade" element={<OptionList />} />
+                            <Route path="finish" element={<FinishScreen/>} />
                         </Route>
 
                         <Route path="/createcourse" element={<CreateCourse/>}/>
