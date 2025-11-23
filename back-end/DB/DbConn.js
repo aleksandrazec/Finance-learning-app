@@ -286,4 +286,71 @@ dataPool.addStocksBatch = (values_text_formatted) => {
 // end Stock
 
 
+//forums
+
+dataPool.findForum=(id)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`SELECT prompt, DATE_FORMAT(date, "%M %d %Y") AS date, name, Forum.user_id, Forum.id FROM Forum INNER JOIN User on User.user_id=User.id WHERE Forum.id= ?`, [id], (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+
+dataPool.listForumsDSC=()=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`SELECT prompt, DATE_FORMAT(date, "%M %d %Y") AS date, name, Forum.user_id, Forum.id FROM Forum INNER JOIN User on Forum.user_id=User.id ORDER BY date DESC`, (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.getReplies=(id)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`SELECT Comment.id , text, DATE_FORMAT(Comment.date, "%M %d %Y") AS date, reply_id, username, Comment.user_id, forum_id FROM Comment INNER JOIN User on Comment.user_id=User.id INNER JOIN Forum ON Forum.id=Comment.forum_id WHERE reply_id = ? `, id, (err,res)=>{
+      if(err){return reject(err)}
+      console.log(res)
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.getComments=(id)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`SELECT Comment.id , text, DATE_FORMAT(Comment.date, "%M %d %Y") AS date, reply_id, username, Comment.user_id, forum_id FROM Comment INNER JOIN User on Comment.user_id=User.id INNER JOIN Forum ON Forum.id=Comment.forum_id WHERE reply_id IS NULL AND forum_id = ? `, id, (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.createReply=(text, userID, forumID, replyID)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`INSERT INTO Comment (text, user_id, forum_id, reply_id) VALUES (?,?,?,?)`, [text, userID, forumID, replyID], (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.createComment=(text, userID, forumID)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`INSERT INTO Comment (text, user_id, forum_id) VALUES (?,?,?)`, [text, userID, forumID], (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
+dataPool.createForum=(prompt, userID)=>{
+  return new Promise((resolve, reject)=>{
+    conn.query(`INSERT INTO Forum (prompt, user_id) VALUES (?,?)`, [prompt, userID], (err,res)=>{
+      if(err){return reject(err)}
+      return resolve(res)
+    })
+  })
+}
+
 module.exports = dataPool;

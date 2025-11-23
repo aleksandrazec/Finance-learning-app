@@ -6,7 +6,7 @@ function ForumCard(props) {
 
     const {
         prompt,
-        title,
+        username,
         date,
         id,
         user_id
