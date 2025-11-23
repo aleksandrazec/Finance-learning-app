@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { GameContext } from './GameContext';
+import './styles.css'
 
 function Saving(props) {
     const { dynamicGameInfo, setDynamicGameInfo } = useContext(GameContext);
@@ -7,37 +8,30 @@ function Saving(props) {
 
     const handleSavingChange = (e) => {
         const amount = parseInt(e.target.value) || 0;
-        const maxAmount = dynamicGameInfo.initialBalance - 
-                         (Object.values(dynamicGameInfo.ownedShares || {}).reduce((a, b) => a + b, 0) * 
-                         /* average share price calculation would go here */ 1);
-        
-        if (amount <= maxAmount) {
+
+        if (amount <= dynamicGameInfo.currentBalance) {
             setSavingAmount(amount);
-            
-            // Update the context with new saving amount and recalculate balance
+
             setDynamicGameInfo(prev => ({
                 ...prev,
                 saving: amount,
-                currentBalance: prev.initialBalance - amount - 
-                              (Object.values(prev.ownedShares || {}).reduce((a, b) => a + b, 0) * 
-                              /* average share price calculation would go here */ 1)
+                currentBalance: dynamicGameInfo.initialBalance - amount
             }));
         }
     };
 
     return (
         <div className="saving-option">
-            <label htmlFor="saving-input">Savings: </label>
+            <label htmlFor="saving-input" className="saving-label">Savings: </label>
             <input
                 id="saving-input"
+                className="saving-input"
                 type="number"
                 value={savingAmount}
                 onChange={handleSavingChange}
-                min="0"
-                max={dynamicGameInfo.initialBalance}
                 placeholder="Enter amount to save"
             />
-            <span>${savingAmount}</span>
+            <span className="saving-amount">${savingAmount}</span>
         </div>
     );
 }

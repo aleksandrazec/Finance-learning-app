@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router';
+import './styles.css'
 
 function MainOption(props) {
     const navigate = useNavigate();
@@ -8,9 +9,9 @@ function MainOption(props) {
         navigate(`/gamemain/${id}`);
     };
 
-    return (
+  return (
         <div className="main-option-card" onClick={handleSelect}>
-            <h3>{name}</h3>
+            <h3 className="option-title">{name}</h3>
             <button className="select-btn">Select</button>
         </div>
     );

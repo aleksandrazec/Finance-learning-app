@@ -1,8 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
 import { GameContext } from './GameContext';
-import { Outlet } from 'react-router';
+import { Outlet, useParams } from 'react-router';
+import './styles.css'
+import api from '../../services/api';
 
 function Game(props) {
+    const { id } = useParams();
     const { dynamicGameInfo, setDynamicGameInfo } = useContext(GameContext);
     const [gameInfo, setGameInfo] = useState({
         start_money: 0,
@@ -13,15 +16,15 @@ function Game(props) {
     useEffect(() => {
         const getGameInfo = async () => {
             try {
-                // API CALL HERE
-                const result = await api.post(`/getgame`, { id: id });
+                const result = await api.get(`/game/${id}`);
                 setGameInfo(result.data);
-                const initialBalance = result.data.start_money - result.data.living_cost;
+                const money = gameInfo.start_money - gameInfo.living_cost;
                 setDynamicGameInfo({
-                    currentBalance: initialBalance,
+                    currentBalance: money,
                     saving: 0,
-                    initialBalance: initialBalance,
-                    ownedShares: {}
+                    initialBalance: money,
+                    ownedShares: {},
+                    date: gameInfo.start_date
                 });
             } catch (error) {
                 console.error(error);
@@ -29,15 +32,6 @@ function Game(props) {
         };
         getGameInfo();
     }, []);
-
-    // Calculate total portfolio value
-    const totalPortfolioValue = dynamicGameInfo.ownedShares 
-        ? Object.entries(dynamicGameInfo.ownedShares).reduce((total, [optionId, shares]) => {
-            // You might need to fetch current prices for each option here
-            // For now, this is a placeholder calculation
-            return total + (shares * 0); // Replace 0 with actual current price
-        }, 0)
-        : 0;
 
     return (
         <GameContext.Provider value={{ dynamicGameInfo, setDynamicGameInfo }}>
@@ -52,9 +46,7 @@ function Game(props) {
 
                 <footer className="game-footer">
                     <p className='MainText'>Current balance: ${dynamicGameInfo?.currentBalance || 0}</p>
-                    <p className='MainText'>Savings: ${dynamicGameInfo?.saving || 0}</p>
-                    <p className='MainText'>Portfolio Value: ${totalPortfolioValue}</p>
-                    <button>
+                    <button className="finish-btn">
                         Finish
                     </button>
                 </footer>

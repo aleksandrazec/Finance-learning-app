@@ -1,19 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router';
 import Option from "./Option";
+import { GameContext } from './GameContext';
+import './styles.css'
+import api from '../../services/api';
 
 function OptionList(props) {
     const { id } = useParams();
     const [list, setList] = useState([]);
-    const [categoryName, setCategoryName] = useState('');
+    const { dynamicGameInfo } = useContext(GameContext);
 
     useEffect(() => {
         const fetchOptions = async () => {
             try {
-                // API CALL HERE to get specific investment options based on category id
-                const result = await api.get(`/investment-options/${id}`);
-                setList(result.data.options);
-                setCategoryName(result.data.categoryName);
+                const result = await api.get(`/stock/${dynamicGameInfo.date}`,  );
+                setList(result.data);
             } catch (error) {
                 console.error(error);
             }
@@ -21,18 +22,16 @@ function OptionList(props) {
         fetchOptions();
     }, [id]);
 
-    return (
+ return (
         <div className="option-list">
-            <h2>Invest in {categoryName}</h2>
             <div className="options-container">
                 {list.length > 0 ? (
                     list.map(el => (
                         <Option 
-                            name={el.name} 
+                            name={el.Company} 
                             key={el.id} 
                             id={el.id}
-                            currentPrice={el.currentPrice}
-                            ownedShares={el.ownedShares}
+                            currentPrice={el.Close}
                         />
                     ))
                 ) : (

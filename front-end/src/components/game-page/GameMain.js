@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import MainOption from './MainOption';
 import Saving from './Saving';
+import './styles.css'
 
 function GameMain(props) {
     const [mainOptionsList, setMainOptionsList] = useState([]);
@@ -15,7 +16,7 @@ function GameMain(props) {
         setMainOptionsList(hardcodedOptions);
     }, []);
 
-    return (
+  return (
         <div className="main-options">
             <div className="options-grid">
                 {mainOptionsList.length > 0 ? (
@@ -26,7 +27,6 @@ function GameMain(props) {
                             id={el.id}
                         />
                     ))
-
                 ) : (
                     <p className='loading'>Loading...</p>
                 )}
