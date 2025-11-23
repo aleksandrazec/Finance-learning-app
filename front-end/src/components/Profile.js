@@ -18,9 +18,9 @@ function Profile(){
                     <img src={userIcon} id="userIcon"/>
 
                     <div className="user-data">
-                        <h2>User data</h2>
-                        <h3>Name:</h3>
-                        <h3>Surname:</h3>
+                        <h2>Username:</h2>
+                        {/* <h3>Name:</h3> */}
+                        {/* <h3>Surname:</h3> */}
                         <h3>E-mail:</h3>
                     </div>
                 </div>

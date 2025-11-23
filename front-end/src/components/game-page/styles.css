@@ -1,0 +1,287 @@
+/* Dark theme with orange highlights */
+.game-container {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.game-header {
+  background-color: #2d2d2d;
+  padding: 1rem;
+  border-bottom: 2px solid #ff6b00;
+  text-align: center;
+}
+
+.game-content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.game-footer {
+  background-color: #2d2d2d;
+  padding: 1rem;
+  border-top: 2px solid #ff6b00;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.MainText {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+button {
+  background-color: #ff6b00;
+  color: #1a1a1a;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff8c00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 107, 0, 0.3);
+}
+
+/* Main Options Grid */
+.main-options {
+  padding: 1rem 0;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.main-option-card {
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 120px;
+}
+
+.main-option-card:hover {
+  border-color: #ff6b00;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(255, 107, 0, 0.2);
+}
+
+.main-option-card h3 {
+  margin: 0 0 1rem 0;
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.select-btn {
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+/* Saving Component */
+.saving-option {
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.saving-option label {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.saving-option input {
+  background-color: #1a1a1a;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: #ffffff;
+  width: 120px;
+}
+
+.saving-option input:focus {
+  outline: none;
+  border-color: #ff6b00;
+}
+
+.saving-option span {
+  color: #ff6b00;
+  font-weight: bold;
+}
+
+/* Option List and Cards */
+.option-list {
+  padding: 1rem 0;
+}
+
+.options-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.option-card {
+  background-color: #2d2d2d;
+  border: 1px solid #444;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.option-card:hover {
+  border-color: #ff6b00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 107, 0, 0.2);
+}
+
+.option-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.option-header h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+.price {
+  color: #ff6b00;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.option-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.action-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.action-group input {
+  flex: 1;
+  background-color: #1a1a1a;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 0.5rem;
+  color: #ffffff;
+}
+
+.action-group input:focus {
+  outline: none;
+  border-color: #ff6b00;
+}
+
+.action-group button {
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+}
+
+.owned-shares {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background-color: #1a1a1a;
+  border-radius: 4px;
+  text-align: center;
+  color: #ff6b00;
+  font-weight: bold;
+}
+
+.loading {
+  text-align: center;
+  color: #ff6b00;
+  font-size: 1.1rem;
+  grid-column: 1 / -1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .game-header,
+  .game-footer {
+    padding: 0.75rem;
+  }
+  
+  .MainText {
+    font-size: 1rem;
+  }
+  
+  .options-grid,
+  .options-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .game-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .saving-option {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+  
+  .saving-option input {
+    width: 100%;
+  }
+  
+  .action-group {
+    flex-direction: column;
+  }
+  
+  button {
+    padding: 0.6rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-content {
+    padding: 0.5rem;
+  }
+  
+  .main-option-card,
+  .option-card,
+  .saving-option {
+    padding: 1rem;
+  }
+  
+  .option-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+}
