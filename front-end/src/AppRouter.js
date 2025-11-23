@@ -7,6 +7,7 @@ import Profile from "./components/Profile";
 import Form from "./components/Form";
 import OptionList from './components/game-page/OptionList';
 import App from './App';
+import CreateCourse from './components/advisor-view/CreateCourse';
 
 class AppRouter extends Component {
     render() {
@@ -17,7 +18,7 @@ class AppRouter extends Component {
                     <Route path="/" element={<App />}>
                         <Route index={true} element={<Form />} />
                         <Route path="/home" index={true} element={<Home />} />
-
+                        
                         <Route path="/profile" element={<Profile />} />
 
                          <Route path="game/:id" element={<Game />}>
@@ -25,6 +26,7 @@ class AppRouter extends Component {
                             <Route path=":id" element={<OptionList />} />
                         </Route>
 
+                        <Route path="/createcourse" element={<CreateCourse/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

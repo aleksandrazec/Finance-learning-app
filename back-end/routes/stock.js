@@ -4,6 +4,9 @@ const stock = express.Router()
 
 const db = require('../DB/DbConn.js')
 
+var bodyParser = require('body-parser')
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 stock.get('/:date', async (req, res, next) => {
     try{
         const queryResult = await db.getCompanyName(req.params.date)

@@ -5,7 +5,11 @@ const user = express.Router()
 
 const db = require('../DB/DbConn.js')
 
-user.post('/login', async (req, res, next) => {
+
+var bodyParser = require('body-parser')
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+user.post('/login', urlencodedParser, async (req, res) => {
     try{
 
         const { username, password } = req.body;
@@ -45,7 +49,7 @@ user.post('/login', async (req, res, next) => {
     }
 })
 
-user.post('/logout', async (req, res, next) => {
+user.post('/logout', urlencodedParser, async (req, res) => {
     try{
         req.session.destroy(function(err){
             if(err){
@@ -63,7 +67,7 @@ user.post('/logout', async (req, res, next) => {
 
 })
 
-user.post('/register', async (req, res, next) => {
+user.post('/register', urlencodedParser, async (req, res) =>{
     try{
 
         const { username, type, email, password } = req.body;

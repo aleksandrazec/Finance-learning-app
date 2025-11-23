@@ -4,6 +4,10 @@ const lecture = express.Router()
 
 const db = require('../DB/DbConn.js')
 
+
+var bodyParser = require('body-parser')
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 // get info about 1 lecture
 lecture.get('/:id', async (req, res, next) => {
     try{
@@ -26,7 +30,7 @@ lecture.get('/:id', async (req, res, next) => {
 })
 
 // create a lecture
-lecture.post('/', async (req, res, next) => {
+lecture.post('/', urlencodedParser, async (req, res) =>{
     try{
 
         // todo - handling file upload

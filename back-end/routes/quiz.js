@@ -4,6 +4,10 @@ const quiz = express.Router()
 
 const db = require('../DB/DbConn.js')
 
+
+var bodyParser = require('body-parser')
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 quiz.get('/:id', async (req, res, next) => {
     try{
         const queryResult = await db.getQuiz(req.params.id);
@@ -20,7 +24,7 @@ quiz.get('/:id', async (req, res, next) => {
     }
 })
 
-quiz.post('/', async (req, res, next) => {
+quiz.post('/', urlencodedParser, async (req, res) => {
     try{
         
     

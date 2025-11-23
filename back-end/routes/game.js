@@ -4,6 +4,9 @@ const game = express.Router()
 
 const db = require('../DB/DbConn.js')
 
+var bodyParser = require('body-parser')
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
+
 game.get('/:id', async (req, res, next) => {
     try{
         const queryResult = await db.getGame(req.params.id)
@@ -19,7 +22,7 @@ game.get('/:id', async (req, res, next) => {
     }
 })
 
-game.post('/', async (req, res, next) => {
+game.post('/', urlencodedParser, async (req, res) => {
     try{
         
         const { course_id, living_cost, start_money, start_date } = req.body;

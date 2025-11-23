@@ -1,8 +1,12 @@
-
 const express = require('express')
+const fs = require('fs').promises
+const path = require('path')
 const course = express.Router()
 
 const db = require('../DB/DbConn.js')
+
+var bodyParser = require('body-parser')
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 // get all courses
 course.get('/list', async (req, res, next) => {
@@ -80,12 +84,13 @@ course.get('/:id', async (req, res, next) => {
     }
 })
 
+
 // create a course
-course.post('/', async (req, res, next) => {
+course.post('/', urlencodedParser, async (req, res) =>  {
     try{
 
         // todo - creating structure file
-
+        console.log(req.body)
         const { title, advisor_id, difficulty, description, structure_file } = req.body;
 
         if(title && advisor_id && difficulty && description && structure_file){
@@ -94,6 +99,7 @@ course.post('/', async (req, res, next) => {
             if(queryResult.affectedRows){
                 res.status(200)
                 res.send({ status : { success: true, message : "Successfully created a course!"}})
+
             }else{
                 res.status(500)
                 res.send({ status : { success: false, message : "Error while creating a course! Try again!"}})                

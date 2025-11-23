@@ -23,6 +23,21 @@ const session = require('express-session')
 
 app.set('trust proxy', 1)
 
+app.use((req, res, next) => {
+  const allowedOrigin = 'http://localhost:3000';
+  
+  res.header('Access-Control-Allow-Origin', allowedOrigin);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  res.header('Access-Control-Allow-Credentials', 'true'); // This is crucial
+  
+  // Handle preflight requests
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.use(session({
     secret: 'secret-secret',
     resave: false,
@@ -46,13 +61,13 @@ const lecture = require('./routes/lecture.js')
 app.use('/lecture', lecture)
 
 const quiz = require('./routes/quiz.js')
-app.use('/quiz', quiz)
+app.use('/lecture', quiz)
 
 const game = require('./routes/game.js')
 app.use('/game', game)
 
 const stock = require('./routes/stock.js')
-app.use('/stock', stock)
+app.use('/game', stock)
 
 http.createServer(app).listen(PORT, () => console.log(`http server listening on port ${PORT}`))
 
