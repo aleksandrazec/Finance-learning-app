@@ -1,15 +1,38 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import TabContainer from "./tab-navigator/TabContainer";
+import growthImg from "../images/growth.png";
+
 import "../styles/Form.css"; // We'll create this CSS file
 
 function Form() {
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
         
-    };
+    // };
+
+    const logIn = async () => {
+        if  (email && password) {
+            try {
+                
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 
     return(
+         <>
+        <TabContainer/>
+
+        <img src={growthImg} id="growthImg"></img>
+
         <div className="form-container">
+           
+            
             <div className="form-card">
                 <div className="form-header">
                     <h1 className="form-title">Welcome to <span className="app-name">app_name</span></h1>
@@ -18,7 +41,7 @@ function Form() {
 
                 <form className="modern-form" onSubmit={handleSubmit}>
                     <div className="input-group">
-                        <div className="form-row">
+                        {/* <div className="form-row">
                             <div className="input-field">
                                 <input 
                                     type="text" 
@@ -31,7 +54,7 @@ function Form() {
                                 <div className="input-underline"></div>
                             </div>
                             
-                            <div className="input-field">
+                             <div className="input-field">
                                 <input 
                                     type="text" 
                                     id="surname"
@@ -41,8 +64,8 @@ function Form() {
                                 />
                                 <label htmlFor="surname" className="form-label">Last Name</label>
                                 <div className="input-underline"></div>
-                            </div>
-                        </div>
+                            </div> 
+                        </div> */}
 
                         <div className="input-field">
                             <input 
@@ -51,14 +74,30 @@ function Form() {
                                 className="form-input"
                                 placeholder=" "
                                 required
+                                onChange={({ target: { value: input } }) => setEmail(input)}
+                                value={email}
                             />
                             <label htmlFor="email" className="form-label">Email Address</label>
+                            <div className="input-underline"></div>
+                        </div>
+
+                        <div className="input-field">
+                            <input 
+                                type="password" 
+                                id="password"
+                                className="form-input"
+                                placeholder=" "
+                                required
+                                onChange={({ target: { value: input } }) => setPassword(input)}
+                                value={password}
+                            />
+                            <label htmlFor="password" className="form-label">Password</label>
                             <div className="input-underline"></div>
                         </div>
                     </div>
 
                     <Link to="/home" className="submit-link">
-                        <button type="submit" className="submit-button">
+                        <button className="submit-button" onClick={() => logIn()}>
                             <span className="button-text">Get Started</span>
                             <span className="button-icon">→</span>
                         </button>
@@ -72,6 +111,7 @@ function Form() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 
