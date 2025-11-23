@@ -248,7 +248,7 @@ dataPool.getGame = (id) => {
 // Stock
 dataPool.getCompanyName = (date) => {
     return new Promise((resolve, reject) => {  
-        conn.query("SELECT Company, Close FROM Stock WHERE Date = ?", date, (err, res) => {
+        conn.query("SELECT * FROM Stock WHERE Date = ?", date, (err, res) => {
             if(err){
                 return reject(err)
             }
@@ -281,8 +281,19 @@ dataPool.addStocksBatch = (values_text_formatted) => {
     })
 }
 
-// get stocks?
-
+// get stocks from a year
+dataPool.getStocksFor365Days = (date) => {
+    return new Promise((resolve, reject) => {
+        let js_date = new Date(date)
+        const last_date = "" + (js_date.getFullYear + 1) + "-" + js_date.getMonth + "-" + (js_date.getDate != 29 ? js_date : js_date - 1);  // to avoid having 29th feb in non-leap years
+        conn.query("SELECT * FROM Stock WHERE date >= ? AND date < ?", [date, last_date], (err, res) => {
+            if(err){
+                return reject(err)
+            }
+            return resolve(res)
+        })
+    })
+}
 // end Stock
 
 
