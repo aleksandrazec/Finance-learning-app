@@ -81,7 +81,7 @@ function Option(props) {
                         value={buyAmount}
                         min="0"
                     />
-                    <button className="buy-btn" onClick={handleBuy}>Buy</button>
+                    <button className="buy-btn" onClick={()=>handleBuy()}>Buy</button>
                 </div>
 
                 <div className="action-group">
@@ -94,7 +94,7 @@ function Option(props) {
                         min="0"
                         max={dynamicGameInfo.ownedShares?.name || 0}
                     />
-                    <button className="sell-btn" onClick={handleSell}>Sell</button>
+                    <button className="sell-btn" onClick={()=>handleSell()}>Sell</button>
                 </div>
             </div>
 

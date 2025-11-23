@@ -8,12 +8,15 @@ import api from '../../services/api';
 function OptionList(props) {
     const { id } = useParams();
     const [list, setList] = useState([]);
-    const { dynamicGameInfo } = useContext(GameContext);
+    const { dynamicGameInfo, setDynamicGameInfo } = useContext(GameContext);
 
     useEffect(() => {
         const fetchOptions = async () => {
             try {
-                const result = await api.get(`/stock/${dynamicGameInfo.date}`,  );
+                console.log(typeof dynamicGameInfo.date)
+                const initialDate = dynamicGameInfo.date.substring(0,10);
+                const result = await api.get(`/stock/${initialDate}`,  );
+                console.log(initialDate);
                 setList(result.data);
             } catch (error) {
                 console.error(error);

@@ -8,6 +8,9 @@ import Form from "./components/Form";
 import OptionList from './components/game-page/OptionList';
 import App from './App';
 import CreateCourse from './components/advisor-view/CreateCourse';
+import Test from './components/test_component/test';
+import ViewCourses from './components/advisor-view/ViewCourses';
+import CoursePage from './components/advisor-view/CoursePage';
 
 class AppRouter extends Component {
     render() {
@@ -23,10 +26,13 @@ class AppRouter extends Component {
 
                          <Route path="game/:id" element={<Game />}>
                             <Route index={true} element={<GameMain />} />
-                            <Route path=":id" element={<OptionList />} />
+                            <Route path="trade" element={<OptionList />} />
                         </Route>
 
                         <Route path="/createcourse" element={<CreateCourse/>}/>
+                        <Route path="/test" element={<Test/>}/>
+                        <Route path="/viewcourses" element={<ViewCourses/>}/>
+                        <Route path="/viewcourses/:id" element={<CoursePage/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

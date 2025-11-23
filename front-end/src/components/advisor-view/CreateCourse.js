@@ -6,10 +6,9 @@ function CreateCourse(props) {
     const user = useContext(UserContext)
     const [state, setState] = useState({
         title: '',
-        advisor_id: 2,
+        advisor_id: user.user_id,
         difficulty: 1,
-        description: '',
-        structure_file: ''
+        description: ''
     })
     const [text, setText]=useState('')
 
@@ -18,7 +17,7 @@ function CreateCourse(props) {
         try{
             await api.post('/course/', {...state})
             setText('Created course.')
-            setState(prev => ({ ...prev, title:'', advisor_id: 2, difficulty: 1, description: '', structure_file: ''}));
+            setState(prev => ({ ...prev, title:'', advisor_id:  user.user_id, difficulty: 1, description: ''}));
         }catch(error){
             console.error(error)
         }
@@ -41,7 +40,7 @@ function CreateCourse(props) {
         <div>
             <h1>New Course: </h1>
             <p>Title:</p>
-            <input type="text" id="prompt" name="prompt" onChange={({ target: { value: inputTitle } }) => setState(prevState => ({ ...prevState, title: inputTitle, structure_file: inputTitle+'_structure.txt' }))} value={state.title} /><br />
+            <input type="text" id="prompt" name="prompt" onChange={({ target: { value: inputTitle } }) => setState(prevState => ({ ...prevState, title: inputTitle}))} value={state.title} /><br />
             <p>Description:</p>
             <input type="text" id="prompt" name="prompt" onChange={({ target: { value: inputDescription } }) => setState(prevState => ({ ...prevState, description: inputDescription }))} value={state.description} /><br />
             <p>Difficulty:</p>
