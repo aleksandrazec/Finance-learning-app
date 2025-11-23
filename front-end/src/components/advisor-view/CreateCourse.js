@@ -30,6 +30,15 @@ function CreateCourse(props) {
         setState(prevState => ({...prevState, difficulty: parseInt(event.target.value)}))
     }
 
+    const sendStockPostRequest = async () => {
+        try{
+            await api.post('/stock/batch', {text : state.title})
+            
+        }catch(error){
+            console.error(error)
+        }
+    }
+
     return (
         <div>
             <h1>New Course: </h1>
@@ -51,6 +60,7 @@ function CreateCourse(props) {
             </select>
             <p>Selected Difficulty: {state.difficulty}/5</p>
             <button onClick={()=>addNewCourse()}>Create New Course</button>
+            <button onClick={()=>sendStockPostRequest()}>Send stock data</button>
               {text}
         </div>
     )

@@ -10,7 +10,9 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 stock.post('/batch', urlencodedParser, async (req, res) => {
     try {
         // receiving text
-        const { text } = req.body
+
+        console.log(req.body)
+        const text  = req.body.text
 
         const queryResult = await db.addStocksBatch(text)
         if (queryResult.affectedRows) {
