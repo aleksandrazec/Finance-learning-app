@@ -40,7 +40,7 @@ function Form() {
 
                 <div className="form-card">
                     <div className="form-header">
-                        <h1 className="form-title">Welcome to <span className="app-name">app_name</span></h1>
+                        <h1 className="form-title">Welcome to <span className="app-name">Money Mentor</span></h1>
                         <p className="form-subtitle">Please fill in your details to continue</p>
                     </div>
 
