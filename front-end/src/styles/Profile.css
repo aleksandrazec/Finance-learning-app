@@ -1,17 +1,18 @@
-/* Profile.css */
+/* Profile.css - Updated to match Form.css color scheme */
 
 body {
     font-family: 'Inter', 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    background-color: #2f2f2f;
 }
 
 h1 {
     text-align: center;
     margin-top: 40px;
     font-size: 2.8rem;
-    color: #ecf0f1;
+    color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     font-weight: 700;
 }
@@ -24,16 +25,18 @@ h1 {
     justify-content: center;
     font-size: 24px;
     margin: 5px auto;
-    background: linear-gradient(145deg, #ecf0f1, #bdc3c7);
+    background: rgba(23, 23, 23, 0.9);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
     padding: 2rem 1rem;
     text-align: center;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 25px rgba(235, 123, 26, 0.1);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
-    border: 2px solid transparent;
+    border: 1px solid rgba(235, 123, 26, 0.1);
     position: relative;
     overflow: hidden;
+    color: #ffffff;
 }
 
 .home-card::before {
@@ -42,8 +45,8 @@ h1 {
     top: 0;
     left: -100%;
     width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #eb7b1a, #f0a35a, #eb7b1a, transparent);
     transition: left 0.6s;
 }
 
@@ -53,26 +56,44 @@ h1 {
 
 .home-card:hover {
     transform: translateY(-8px) scale(1.05);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    border-color: #95a5a6;
-    background: linear-gradient(145deg, #ffffff, #d5dbdb);
+    box-shadow: 0 15px 30px rgba(235, 123, 26, 0.2);
+    border: 3px solid #eb7b1a;
+    background: rgba(35, 35, 35, 0.95);
 }
 
 #user-container {
     max-width: 600px;
     margin: 40px auto;
-    background: linear-gradient(145deg, #ecf0f1, #bdc3c7);
+    background: rgba(23, 23, 23, 0.9);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 25px rgba(235, 123, 26, 0.1);
     padding: 30px;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border: 2px solid transparent;
+    border: 1px solid rgba(235, 123, 26, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+#user-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #eb7b1a, #f0a35a, #eb7b1a, transparent);
+    transition: left 0.6s;
+}
+
+#user-container:hover::before {
+    left: 100%;
 }
 
 #user-container:hover {
     transform: translateY(-6px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    border-color: #95a5a6;
+    box-shadow: 0 15px 30px rgba(235, 123, 26, 0.2);
+    border: 3px solid #eb7b1a;
 }
 
 .container-header {
@@ -84,7 +105,7 @@ h1 {
 
 .container-header h2 {
     margin-bottom: 20px;
-    color: #2c3e50;
+    color: #ffffff;
     font-size: 1.8rem;
     font-weight: 600;
 }
@@ -95,50 +116,73 @@ h1 {
     border-radius: 50%;
     margin-bottom: 20px;
     object-fit: cover;
-    border: 4px solid #95a5a6;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    border: 4px solid #eb7b1a;
+    box-shadow: 0 6px 15px rgba(235, 123, 26, 0.3);
     transition: all 0.3s ease;
 }
 
 #userIcon:hover {
     transform: scale(1.05);
-    border-color: #7f8c8d;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-color: #f0a35a;
+    box-shadow: 0 8px 20px rgba(235, 123, 26, 0.4);
 }
 
 .user-data {
     width: 100%;
     text-align: left;
-    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    background: linear-gradient(135deg, rgba(235, 123, 26, 0.1), rgba(240, 163, 90, 0.1));
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     margin-top: 15px;
+    border: 1px solid rgba(235, 123, 26, 0.2);
+    backdrop-filter: blur(5px);
 }
 
 .user-data h2 {
     margin-top: 0;
     margin-bottom: 20px;
-    color: #ecf0f1;
+    color: #ffffff;
     font-size: 1.5rem;
     font-weight: 600;
     text-align: center;
-    border-bottom: 2px solid #bdc3c7;
+    border-bottom: 2px solid rgba(235, 123, 26, 0.3);
     padding-bottom: 10px;
 }
 
 .user-data h3 {
     margin: 12px 0;
     font-weight: 500;
-    color: #ecf0f1;
+    color: #ffffff;
     padding: 8px 15px;
-    background: rgba(44, 62, 80, 0.3);
+    background: rgba(235, 123, 26, 0.1);
     border-radius: 8px;
-    border-left: 4px solid #bdc3c7;
+    border-left: 4px solid #eb7b1a;
     transition: all 0.3s ease;
 }
 
-/* Responsive design */
+.user-data h3:hover {
+    background: rgba(235, 123, 26, 0.2);
+    transform: translateX(5px);
+}
+
+.app-name {
+    background: linear-gradient(135deg, #eb7b1a, #f0a35a, #eb7b1a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px rgba(235, 123, 26, 0.5);
+    }
+    to {
+        text-shadow: 0 0 15px rgba(235, 123, 26, 0.8), 0 0 20px rgba(235, 123, 26, 0.6);
+    }
+}
+
 @media (max-width: 768px) {
     #user-container {
         margin: 20px;
@@ -185,5 +229,12 @@ h1 {
     .user-data h3 {
         padding: 6px 12px;
         font-size: 0.9rem;
+    }
+}
+
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
     }
 }
