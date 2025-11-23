@@ -241,7 +241,17 @@ dataPool.getGame = (id) => {
 
 
 // add a batch of stocks
-
+// text is formatted in proper route
+dataPool.addStocksBatch = (values_text_formatted) => {
+    return new Promise((resolve, reject) => {
+        conn.query("INSTERT INTO Stock (Date, Close, Volume, Company) VALUES " + values_text_formatted, (err, res) => {
+            if(err){
+                return reject(err)
+            }
+            return resolve(res)
+        })
+    })
+}
 
 // get stocks?
 
