@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import TabContainer from "./tab-navigator/TabContainer";
 import growthImg from "../images/growth.png";
@@ -6,10 +6,23 @@ import growthImg from "../images/growth.png";
 import "../styles/Form.css"; // We'll create this CSS file
 
 function Form() {
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
         
-    };
+    // };
+
+    const logIn = async () => {
+        if  (email && password) {
+            try {
+                
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
 
     return(
          <>
@@ -61,6 +74,8 @@ function Form() {
                                 className="form-input"
                                 placeholder=" "
                                 required
+                                onChange={({ target: { value: input } }) => setEmail(input)}
+                                value={email}
                             />
                             <label htmlFor="email" className="form-label">Email Address</label>
                             <div className="input-underline"></div>
@@ -73,6 +88,8 @@ function Form() {
                                 className="form-input"
                                 placeholder=" "
                                 required
+                                onChange={({ target: { value: input } }) => setPassword(input)}
+                                value={password}
                             />
                             <label htmlFor="password" className="form-label">Password</label>
                             <div className="input-underline"></div>
@@ -80,7 +97,7 @@ function Form() {
                     </div>
 
                     <Link to="/home" className="submit-link">
-                        <button type="submit" className="submit-button">
+                        <button className="submit-button" onClick={() => logIn()}>
                             <span className="button-text">Get Started</span>
                             <span className="button-icon">→</span>
                         </button>
