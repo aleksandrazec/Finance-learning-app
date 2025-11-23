@@ -1,8 +1,7 @@
 const express = require('express')
-const fs = require('fs').promises
-const path = require('path')
 const course = express.Router()
-
+const fs = require('fs').promises; // Use promises for async operations
+const path = require('path');
 const db = require('../DB/DbConn.js')
 
 var bodyParser = require('body-parser')
@@ -83,37 +82,67 @@ course.get('/:id', async (req, res, next) => {
         res.sendStatus(500)
     }
 })
-
-
 // create a course
-course.post('/', urlencodedParser, async (req, res) =>  {
-    try{
-
-        // todo - creating structure file
+course.post('/', urlencodedParser, async (req, res) => {
+    try {
         console.log(req.body)
         const { title, advisor_id, difficulty, description, structure_file } = req.body;
 
-        if(title && advisor_id && difficulty && description && structure_file){
-
+        if (title && advisor_id && difficulty && description && structure_file) {
+            
+            // Generate filename for the structure file
+            const timestamp = Date.now();
+            const filename = `structure_${timestamp}_${title.replace(/\s+/g, '_')}.txt`;
+            const filePath = path.join(__dirname, '../structure_files/', filename);
+            
             const queryResult = await db.createCourse(title, advisor_id, difficulty, description, structure_file)
-            if(queryResult.affectedRows){
-                res.status(200)
-                res.send({ status : { success: true, message : "Successfully created a course!"}})
-
-            }else{
+            
+            if (queryResult.affectedRows) {
+                // Create structure file after successful database insertion
+                try {
+                    // Ensure the directory exists
+                    const structureDir = path.join(__dirname, '../structure_files/');
+                    
+                    // Create directory if it doesn't exist (with recursive option)
+                    await fs.mkdir(structureDir, { recursive: true });
+                    
+                    // Write the structure file
+                    await fs.writeFile(filePath, structure_file, 'utf8');
+                    
+                    res.status(200)
+                    res.send({ 
+                        status: { 
+                            success: true, 
+                            message: "Successfully created a course!",
+                            structure_file: filename
+                        }
+                    })
+                    
+                } catch (fileError) {
+                    console.log("Course created but failed to create structure file:", fileError);
+                    res.status(200) // Still success for course creation
+                    res.send({ 
+                        status: { 
+                            success: true, 
+                            message: "Course created but structure file saving failed!",
+                            warning: "Structure file could not be saved"
+                        }
+                    })
+                }
+                
+            } else {
                 res.status(500)
-                res.send({ status : { success: false, message : "Error while creating a course! Try again!"}})                
+                res.send({ status: { success: false, message: "Error while creating a course! Try again!" } })
             }
-        }else{
+        } else {
             console.log("Creating a course but missing a field!")
-            res.status(204)
-            res.send({ status : { success: false, message : "Missing one of the following fields: title, advisor_id, difficulty, description or structure_file!"}})
+            res.status(400) // Changed from 204 to 400 for bad request
+            res.send({ status: { success: false, message: "Missing one of the following fields: title, advisor_id, difficulty, description or structure_file!" } })
         }
-        res.end()
-    }catch(err){
+    } catch (err) {
         console.log("Error at post /course/ route:")
         console.log(err)
-        res.sendStatus(500)
+        res.status(500).send({ status: { success: false, message: "Internal server error" } })
     }
 })
 
