@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../UserContext';
 import api from '../../services/api';
 
@@ -14,6 +14,7 @@ function CreateCourse(props) {
     const [text, setText]=useState('')
 
     const addNewCourse = async()=>{
+        console.log(state.title)
         const structure_file_name=state.title+'_structure.txt'
         setState(prevState => ({ ...prevState, structure_file: structure_file_name}))
         try{

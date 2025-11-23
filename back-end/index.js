@@ -61,13 +61,13 @@ const lecture = require('./routes/lecture.js')
 app.use('/lecture', lecture)
 
 const quiz = require('./routes/quiz.js')
-app.use('/lecture', quiz)
+app.use('/quiz', quiz)
 
 const game = require('./routes/game.js')
 app.use('/game', game)
 
 const stock = require('./routes/stock.js')
-app.use('/game', stock)
+app.use('/stock', stock)
 
 http.createServer(app).listen(PORT, () => console.log(`http server listening on port ${PORT}`))
 
