@@ -1,5 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import TabContainer from "./tab-navigator/TabContainer";
+import growthImg from "../images/growth.png";
+
 import "../styles/Form.css"; // We'll create this CSS file
 
 function Form() {
@@ -9,7 +12,14 @@ function Form() {
     };
 
     return(
+         <>
+        <TabContainer/>
+
+        <img src={growthImg} id="growthImg"></img>
+
         <div className="form-container">
+           
+            
             <div className="form-card">
                 <div className="form-header">
                     <h1 className="form-title">Welcome to <span className="app-name">app_name</span></h1>
@@ -18,7 +28,7 @@ function Form() {
 
                 <form className="modern-form" onSubmit={handleSubmit}>
                     <div className="input-group">
-                        <div className="form-row">
+                        {/* <div className="form-row">
                             <div className="input-field">
                                 <input 
                                     type="text" 
@@ -31,7 +41,7 @@ function Form() {
                                 <div className="input-underline"></div>
                             </div>
                             
-                            <div className="input-field">
+                             <div className="input-field">
                                 <input 
                                     type="text" 
                                     id="surname"
@@ -41,8 +51,8 @@ function Form() {
                                 />
                                 <label htmlFor="surname" className="form-label">Last Name</label>
                                 <div className="input-underline"></div>
-                            </div>
-                        </div>
+                            </div> 
+                        </div> */}
 
                         <div className="input-field">
                             <input 
@@ -53,6 +63,18 @@ function Form() {
                                 required
                             />
                             <label htmlFor="email" className="form-label">Email Address</label>
+                            <div className="input-underline"></div>
+                        </div>
+
+                        <div className="input-field">
+                            <input 
+                                type="password" 
+                                id="password"
+                                className="form-input"
+                                placeholder=" "
+                                required
+                            />
+                            <label htmlFor="password" className="form-label">Password</label>
                             <div className="input-underline"></div>
                         </div>
                     </div>
@@ -72,6 +94,7 @@ function Form() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 
