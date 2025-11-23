@@ -26,7 +26,7 @@ class AppRouter extends Component {
 
                          <Route path="game/:id" element={<Game />}>
                             <Route index={true} element={<GameMain />} />
-                            <Route path=":id" element={<OptionList />} />
+                            <Route path="trade" element={<OptionList />} />
                         </Route>
 
                         <Route path="/createcourse" element={<CreateCourse/>}/>

@@ -6,7 +6,7 @@ function MainOption(props) {
     const { name, id } = props;
 
     const handleSelect = () => {
-        navigate(`/gamemain/${id}`);
+        navigate(`./trade`);
     };
 
   return (
