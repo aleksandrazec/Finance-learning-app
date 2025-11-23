@@ -236,7 +236,16 @@ dataPool.getGame = (id) => {
 
 // 6
 // Stock
-
+dataPool.getCompanyName = (date) => {
+    return new Promise((resolve, reject) => {  
+        conn.query("SELECT Company, Close FROM Stock WHERE Date = ?", date, (err, res) => {
+            if(err){
+                return reject(err)
+            }
+            return resolve(res)
+        })
+    })
+}
 // add 1 stock
 
 

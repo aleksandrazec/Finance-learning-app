@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import Game from './components/game-page/Game';
+import GameMain from './components/game-page/GameMain';
 import Home from './components/Home';
 import Profile from "./components/Profile";
 import Form from "./components/Form";
@@ -19,8 +20,9 @@ class AppRouter extends Component {
 
                         <Route path="/profile" element={<Profile />} />
 
-                        <Route path="gamemain" element={<Game />}>
-                            <Route path="/:id" element={<OptionList />} />
+                         <Route path="game/:id" element={<Game />}>
+                            <Route index={true} element={<GameMain />} />
+                            <Route path=":id" element={<OptionList />} />
                         </Route>
 
                     </Route>
