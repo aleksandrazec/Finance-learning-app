@@ -302,7 +302,7 @@ dataPool.getStocksFor365Days = (date) => {
 
 dataPool.findForum=(id)=>{
   return new Promise((resolve, reject)=>{
-    conn.query(`SELECT prompt, DATE_FORMAT(date, "%M %d %Y") AS date, name, Forum.user_id, Forum.id FROM Forum INNER JOIN User on User.user_id=User.id WHERE Forum.id= ?`, [id], (err,res)=>{
+    conn.query(`SELECT prompt, DATE_FORMAT(date, "%M %d %Y") AS date, username, Forum.user_id, Forum.id FROM Forum INNER JOIN User on Forum.user_id=User.id WHERE Forum.id= ?`, [id], (err,res)=>{
       if(err){return reject(err)}
       return resolve(res)
     })
@@ -312,7 +312,7 @@ dataPool.findForum=(id)=>{
 
 dataPool.listForumsDSC=()=>{
   return new Promise((resolve, reject)=>{
-    conn.query(`SELECT prompt, DATE_FORMAT(date, "%M %d %Y") AS date, name, Forum.user_id, Forum.id FROM Forum INNER JOIN User on Forum.user_id=User.id ORDER BY date DESC`, (err,res)=>{
+    conn.query(`SELECT prompt, DATE_FORMAT(date, "%M %d %Y") AS date, username, Forum.user_id, Forum.id FROM Forum INNER JOIN User on Forum.user_id=User.id ORDER BY date DESC`, (err,res)=>{
       if(err){return reject(err)}
       return resolve(res)
     })

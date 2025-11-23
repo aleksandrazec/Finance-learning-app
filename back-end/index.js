@@ -72,5 +72,8 @@ app.use('/game', game)
 const stock = require('./routes/stock.js')
 app.use('/stock', stock)
 
+const forums = require('./routes/forums.js')
+app.use('/forums', forums)
+
 http.createServer(app).listen(PORT, () => console.log(`http server listening on port ${PORT}`))
 

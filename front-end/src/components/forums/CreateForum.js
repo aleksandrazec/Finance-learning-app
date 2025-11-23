@@ -1,17 +1,16 @@
-import { useParams, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../UserContext'
 import api from '../../services/api';
 
 function CreateForum(props) {
-    const user = useContext(UserContext)
+    const {userInfo} = useContext(UserContext)
     const navigate=useNavigate()
-    const { id } = useParams();
     const [prompt, setPrompt] = useState('')
     const [text, setText] = useState('')
     const createForum = () => {
         try {
-            api.post(`/forums/create`, { prompt: prompt, user_id: user.user_id})
+            api.post(`/forums/create`, { prompt: prompt, user_id: userInfo.user_id})
                 .then(result => {
                     setText('Created forum with following prompt: '+prompt)
                     setPrompt('')
@@ -22,10 +21,10 @@ function CreateForum(props) {
         }
     }
     useEffect(()=>{
-        if(user.role=='-1'){
+        if(userInfo.role==='-1'){
             navigate(`/`)
         }
-    },[navigate, user])
+    },[navigate, userInfo])
 
     return (
         <div>

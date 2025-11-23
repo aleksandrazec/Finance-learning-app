@@ -10,7 +10,7 @@ function Comment(props) {
         username,
         forum_id
     } = props
-    const user = useContext(UserContext)
+    const {userInfo} = useContext(UserContext)
     const [replies, setReplies] = useState()
     const [replyToBe, setReplyToBe] = useState()
     const [textt, setTextt] = useState('')
@@ -32,14 +32,13 @@ function Comment(props) {
     }, [id])
 
     const postReply = async () => {
-        if (user.role === '-1') {
+        if (userInfo.role === '-1') {
             setTextt('Please log in to post comments')
         } else
             try {
-                api.post(`/forums/reply`, { text: replyToBe, user_id: user.user_id, forum_id: forum_id, reply_id: id })
+                api.post(`/forums/reply`, { text: replyToBe, user_id: userInfo.user_id, forum_id: forum_id, reply_id: id })
                     .then(result => {
                         setReplyToBe('')
-                        window.location.reload(false);
                     })
                     .catch(err => console.error(err))
             } catch (error) {
@@ -57,7 +56,7 @@ function Comment(props) {
                 <button className='reply-button' onClick={() => postReply()}>Reply</button>
                 <p>{textt}</p>
             </div>
-            <div id='replies'>
+            <div id='replies'  style={{marginLeft: '2%'}}>
                 {
                     replies ?
                         replies.map(com => <div className='reply'><Comment id={com.id} forum_id={com.forum_id} text={com.text} key={com.id} date={com.date} username={com.username} user_id={com.user_id} /></div>)

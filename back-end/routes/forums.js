@@ -1,8 +1,8 @@
 
 const express = require('express')
-const lecture = express.Router()
+const forums = express.Router()
 
-const db = require('../DB/DbConn.js')
+const DB = require('../DB/DbConn.js')
 
 
 var bodyParser = require('body-parser')

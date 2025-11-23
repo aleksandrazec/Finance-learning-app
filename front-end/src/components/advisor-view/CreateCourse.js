@@ -3,10 +3,10 @@ import { UserContext } from '../../UserContext';
 import api from '../../services/api';
 
 function CreateCourse(props) {
-    const user = useContext(UserContext)
+    const {userInfo} = useContext(UserContext)
     const [state, setState] = useState({
         title: '',
-        advisor_id: user.user_id,
+        advisor_id: userInfo.user_id,
         difficulty: 1,
         description: ''
     })
@@ -17,7 +17,7 @@ function CreateCourse(props) {
         try{
             await api.post('/course/', {...state})
             setText('Created course.')
-            setState(prev => ({ ...prev, title:'', advisor_id:  user.user_id, difficulty: 1, description: ''}));
+            setState(prev => ({ ...prev, title:'', advisor_id:  userInfo.user_id, difficulty: 1, description: ''}));
         }catch(error){
             console.error(error)
         }

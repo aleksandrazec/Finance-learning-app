@@ -7,9 +7,9 @@ function TabContainer({ children }) {
     const { userInfo, setUserInfo } = useContext(UserContext)
     
 
-    const [ login, courses, profile, forums, create_course ] = [
+    const [ login, courses, profile, forums, create_course, view_courses ] = [
                 {
-                    text: 'Login - todo url',
+                    text: 'Login',
                     url: '/',
                 },
                 {
@@ -27,6 +27,10 @@ function TabContainer({ children }) {
                 {
                     text: 'Create a course',
                     url: '/createcourse',
+                },
+                {
+                    text: 'View courses',
+                    url: '/viewcourses',
                 }
             ]
 
@@ -35,9 +39,9 @@ function TabContainer({ children }) {
     const updateTabList = () => {
         if (userInfo.role === 0) {
             //make urls correct
-            setTabList([ courses, profile, forums])
+            setTabList([ courses, forums, profile])
         } else if (userInfo.role === 1) {
-            setTabList([ courses, profile, forums, create_course ])
+            setTabList([ courses, forums, create_course, view_courses, profile])
         } else {
             setTabList([login])
         }

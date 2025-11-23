@@ -4,13 +4,13 @@ import api from "../../services/api";
 import CourseCard from "./CourseCard";
 
 function ViewCourses(props) {
-    const user = useContext(UserContext)
+    const {userInfo} = useContext(UserContext)
     const [courses, setCourses] = useState();
     useEffect(() => {
 
         const getCourses = () => {
             try {
-                api.post(`/list/:id`, user.user_id)
+                api.post(`/course/list/:id`, userInfo.user_id)
                     .then(result => {
                         console.log(result.data)
                         setCourses(result.data)

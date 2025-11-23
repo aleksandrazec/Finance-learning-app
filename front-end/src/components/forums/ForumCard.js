@@ -8,13 +8,12 @@ function ForumCard(props) {
         prompt,
         username,
         date,
-        id,
-        user_id
+        id
     } = props
 
     const goToForum=async()=>{
         try {
-            navigate(`/forumspage/${id}`)
+            navigate(`/forum/${id}`)
         } catch (error) {
             console.error(error)
         }
