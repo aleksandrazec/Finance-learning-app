@@ -51,7 +51,7 @@ quiz.post('/', urlencodedParser, async (req, res) => {
         }
 
         // Get the inserted quiz ID
-        const quizId = queryResult.insertId;
+        const quizId =queryResult[0].id;
         const new_line = `quiz, ${quizId}`;
 
         // Get course information for structure file

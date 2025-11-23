@@ -48,7 +48,7 @@ game.post('/', urlencodedParser, async (req, res) => {
         }
 
         // Get the inserted game ID
-        const gameId = queryResult.insertId;
+        const gameId = queryResult[0].id;
         const new_line = `game, ${gameId}`;
 
         // Get course information for structure file

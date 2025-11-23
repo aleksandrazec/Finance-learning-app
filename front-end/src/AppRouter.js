@@ -14,6 +14,9 @@ import CoursePage from './components/advisor-view/CoursePage';
 import ForumsHome from './components/forums/ForumsHome';
 import CreateForum from './components/forums/CreateForum';
 import ForumPage from './components/forums/ForumPage';
+import MainCoursePage from './components/course/MainCoursePage'
+import Lecture from './components/course/Lecture';
+import Quiz from './components/course/Quiz';
 
 class AppRouter extends Component {
     render() {
@@ -41,6 +44,9 @@ class AppRouter extends Component {
                         <Route path="/forum/:id" element={<ForumPage/>}/>
                         <Route path="/createforum" element={<CreateForum/>}/>
 
+                        <Route path="course/:id" element={<MainCoursePage/>}/>
+                        <Route path="lecture/:id" element={<Lecture/>}/>
+                        <Route path="quiz/:id" element={<Quiz/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

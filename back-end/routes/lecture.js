@@ -56,7 +56,7 @@ lecture.post('/', urlencodedParser, async (req, res) => {
         }
 
         // Get the inserted lecture ID
-        const lectureId = queryResult.insertId;
+        const lectureId = queryResult[0].id;
         const new_line = `lecture, ${lectureId}`;
 
         // Get course information for structure file

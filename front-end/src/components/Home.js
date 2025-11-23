@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../styles/Home.css";
 import TabContainer from "./tab-navigator/TabContainer";
 import CourseCard from "./CourseCard";
-
+import api from "../services/api";
 // const courseData = [
 //   { 
 //     name: "Crypto invest", 
@@ -23,6 +23,22 @@ function Home() {
     const [courses, setCourses] = useState([]);
     // const [selectedCourse, setSelectedCourse] = useState(null);
 
+   useEffect(()=>{
+
+    const getCourses = ()=>{
+        try {
+            api.get(`/course/list`)
+            .then(result=>{
+                console.log(result.data)
+                setCourses(result.data)})
+            .catch(err=>console.error(err))
+        } catch (error) {
+            console.error(error)
+        }
+        
+    } 
+        getCourses()
+    },[])
     // useEffect(() => {
     //     setCourses(courseData);
     // }, []);
@@ -55,6 +71,7 @@ function Home() {
                     courses ?
                         courses.map(course =>
                             <CourseCard
+                                key={course.id}
                                 id={course.id}
                                 title={course.title}
                                 advisor_id={course.advisor_id}

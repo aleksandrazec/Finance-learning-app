@@ -158,6 +158,67 @@ course.post('/', urlencodedParser, async (req, res) => {
     }
 })
 
+course.get('/structure/:id', async (req, res, next) => {
+    try{
+        const { id } = req.params;
+        const queryResult = await db.getCourse(id)
+        if(queryResult.length){
+            const course = queryResult[0];
+            const structureFileName = course.structure_file;
+            
+            if (!structureFileName) {
+                return res.status(404).json({ 
+                    status: { 
+                        success: false, 
+                        message: "No structure file found for this course" 
+                    } 
+                });
+            }
 
+            // Read from file path ../structure_files/${structureFileName}
+            const filePath = path.join(__dirname, '../structure_files/', structureFileName);
+            
+            try {
+                const fileContent = await fs.readFile(filePath, 'utf8');
+                
+                res.json({
+                    status: { success: true },
+                    course: course,
+                    structure_content: fileContent
+                });
+                
+            } catch (fileError) {
+                if (fileError.code === 'ENOENT') {
+                    console.log(`Structure file not found: ${filePath}`);
+                    return res.status(404).json({ 
+                        status: { 
+                            success: false, 
+                            message: "Structure file not found on server" 
+                        } 
+                    });
+                } else {
+                    throw fileError; // Re-throw to be caught by outer catch
+                }
+            }
+
+        } else {
+            res.status(404).json({ 
+                status: { 
+                    success: false, 
+                    message: "Course not found" 
+                } 
+            });
+        }
+    } catch(err){
+        console.log("Error at /course/structure/:id route:")
+        console.log(err)
+        res.status(500).json({ 
+            status: { 
+                success: false, 
+                message: "Internal server error while reading structure file" 
+            } 
+        });
+    }
+})
 
 module.exports = course;

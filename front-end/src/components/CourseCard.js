@@ -14,7 +14,7 @@ function CourseCard(props) {
 
     const goToCourse = async () => {
         try {
-            navigate(`course/${id}`);
+            navigate(`/course/${id}`);
         } catch (error) {
             console.error(error);
         }
@@ -22,9 +22,8 @@ function CourseCard(props) {
 
     return (
         <>
-            <div id="course-container">
+            <div id="course-card">
                 <div
-                    className="course-item"
                     onClick={() => goToCourse({id})}
                     style={{ cursor: "pointer" }}
                 >
