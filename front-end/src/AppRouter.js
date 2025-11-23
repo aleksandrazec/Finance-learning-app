@@ -11,6 +11,9 @@ import CreateCourse from './components/advisor-view/CreateCourse';
 import Test from './components/test_component/test';
 import ViewCourses from './components/advisor-view/ViewCourses';
 import CoursePage from './components/advisor-view/CoursePage';
+import ForumsHome from './components/forums/ForumsHome';
+import CreateForum from './components/forums/CreateForum';
+import ForumPage from './components/forums/ForumPage';
 
 class AppRouter extends Component {
     render() {
@@ -33,6 +36,11 @@ class AppRouter extends Component {
                         <Route path="/test" element={<Test/>}/>
                         <Route path="/viewcourses" element={<ViewCourses/>}/>
                         <Route path="/viewcourses/:id" element={<CoursePage/>}/>
+
+                        <Route path="/forum" element={<ForumsHome/>}/>
+                        <Route path="/forum/:id" element={<ForumPage/>}/>
+                        <Route path="/createforum" element={<CreateForum/>}/>
+
                     </Route>
                 </Routes>
             </BrowserRouter>

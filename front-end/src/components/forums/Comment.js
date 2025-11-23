@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../../Context'
+import { UserContext } from '../../UserContext'
 import api from '../../services/api'
 
 function Comment(props) {
