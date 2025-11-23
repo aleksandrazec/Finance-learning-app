@@ -1,7 +1,10 @@
-import React, { useState, useContext, useEffect, useNavigate } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate  } from "react-router-dom";
 import { Link } from "react-router-dom";
 import TabContainer from "./tab-navigator/TabContainer";
 import growthImg from "../images/growth.png";
+import { UserContext } from '../UserContext.js'
+import api from '../services/api.js'
 
 import "../styles/Form.css"; // We'll create this CSS file
 
@@ -9,7 +12,10 @@ function Form() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [warningDisplay, setWarningDisplay] = useState(false)
+
+    const { userInfo, setUserInfo } = useContext(UserContext)
     
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -17,16 +23,24 @@ function Form() {
     };
 
     const logIn = async () => {
-        if (username && email && password) {
+        if (username && password) {
             try {
-                // const response = await api.post(`/users/login`, { username: username, email: email, password: password });
+                const { data } = await api.post(`/user/login`, { username: username, password: password, type : 0});
                 
-                console.log('Login successful');
+                if(data.status.success){
+                    console.log('Login successful! Setting userContext');
+                    setUserInfo(prev => ({...prev, user_id : data.user_info.id, role : data.user_info.type}))
+                    navigate('/home');
+                }else{
+                    console.log("Invalid username - password combination!")
+                    setWarningDisplay(true);
+                }
 
-                // navigate('/home');
             } catch (error) {
                 console.error(error);
             }
+        }else{
+
         }
     }
 
@@ -42,6 +56,7 @@ function Form() {
                     <div className="form-header">
                         <h1 className="form-title">Welcome to <span className="app-name">Money Mentor</span></h1>
                         <p className="form-subtitle">Please fill in your details to continue</p>
+                        { warningDisplay && <p style={{color : 'red'}}>{"Invalid username - password combination!"}</p>}
                     </div>
 
                     <form className="modern-form" onSubmit={handleSubmit}>
@@ -82,11 +97,11 @@ function Form() {
                                     onChange={({ target: { value: input } }) => setUsername(input)}
                                     value={username}
                                 />
-                                <label htmlFor="surname" className="form-label">Last Name</label>
+                                <label htmlFor="surname" className="form-label">Username</label>
                                 <div className="input-underline"></div>
                             </div>
 
-                            <div className="input-field">
+                            {/* <div className="input-field">
                                 <input
                                     type="email"
                                     id="email"
@@ -98,7 +113,7 @@ function Form() {
                                 />
                                 <label htmlFor="email" className="form-label">Email Address</label>
                                 <div className="input-underline"></div>
-                            </div>
+                            </div> */}
 
                             <div className="input-field">
                                 <input
@@ -115,12 +130,10 @@ function Form() {
                             </div>
                         </div>
 
-                        <Link to="/home" className="submit-link">
-                            <button type="submit" className="submit-button">
-                                <span className="button-text">Get Started</span>
-                                <span className="button-icon">→</span>
-                            </button>
-                        </Link>
+                        <button type="submit" className="submit-button" onClick={handleSubmit}>
+                            <span className="button-text">Login</span>
+                            <span className="button-icon">→</span>
+                        </button>
                     </form>
 
                     <div className="form-footer">

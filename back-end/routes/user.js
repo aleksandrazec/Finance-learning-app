@@ -18,30 +18,29 @@ user.post('/login', urlencodedParser, async (req, res) => {
 
             let queryResult = await db.validateUser(username, password);
 
-            if(queryResult.length){
+            if(queryResult.length > 0){
                 // if non-empty result valid user-pass combination
-                res.status(200)
+                //res.status(200)
                 // send success message
-                res.send({status : {success : true, message : 'Successfully logged in!'} })
-
+                
                 queryResult[0].password = "not so fast bruh";
                 // set session variables
                 req.session.user_info = queryResult[0]
-
+                
+                res.send({status : {success : true, message : 'Successfully logged in!'}, user_info : queryResult[0] })
             }else{
                 // if empty result invalid user-pass combination
-                res.status(204);
+                // //res.status(204);
                 res.send({status : {success : false, message : 'Invalid username, password combination!'} } )
             }
 
         }else{
             // missing username or password in body
             console.log("Trying to login, but missing username or password!")
-            res.status(204)
+            // //res.status(204)
             res.send({status :  {success : false, message : 'Missing username or password!'}})
         }
 
-        res.end();
     }catch(err){
         console.log("Error on /user/login route")
         console.log(err)
@@ -77,18 +76,18 @@ user.post('/register', urlencodedParser, async (req, res) =>{
 
             if(queryResult.affectedRows){
                 console.log(`Successfuly added new user ${username}`)
-                res.status(200)
+                //res.status(200)
                 res.send({status :  {success : true, message : `Successfuly added new user ${username}`}})
             }else{
                 console.log("Error while trying to add user to db!")
-                res.status(500)
+                //res.status(500)
                 res.send({status :  {success : false, message : 'Error while trying to add user to db! Try again, maybe with a different username!'}})
             }
 
         }else{
             // missing username or password in body
             console.log("Trying to register, but missing something!")
-            res.status(204)
+            //res.status(204)
             res.send({status :  {success : false, message : 'Missing something of the following: username, type, email or password!'}})
         }
 
@@ -109,7 +108,7 @@ user.get('/session', (req, res, next) => {
         res.json(req.session);
     } catch(err){
         console.log(err)
-        res.status(500)
+        //res.status(500)
     }
 })
 
