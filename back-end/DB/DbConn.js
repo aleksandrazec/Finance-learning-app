@@ -247,7 +247,16 @@ dataPool.getCompanyName = (date) => {
     })
 }
 // add 1 stock
-
+dataPool.addStock = (date, close, volume, company) => {
+    return new Promise((resolve, reject) => {
+        conn.query("INSTERT INTO Stock (Date, Close, Volume, Company) VALUES (?, ?, ?, ?)", [date, close, volume, company], (err, res) => {
+            if(err){
+                return reject(err)
+            }
+            return resolve(res)
+        })
+    })
+}
 
 // add a batch of stocks
 // text is formatted in proper route
